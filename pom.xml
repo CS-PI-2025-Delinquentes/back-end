@@ -2,24 +2,70 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+	
 	<groupId>com.pagil</groupId>
 	<artifactId>teruel-express</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Teruel Express Backend</name>
 	<description>Backend para o site de entregas Teruel Express</description>
 	<url/>
+	<inceptionYear>2025</inceptionYear>
+	<organization>
+		<name>Deliquentes</name>
+		<url>https://github.com/CS-PI-2025-Delinquentes</url>
+	</organization>
+	<contributors>
+		<contributor>
+			<name>Arthur Teruel</name>
+			<email>20230006488@estudantes.ifpr.edu.br</email>
+			<roles>
+				<role>product owner</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Isaque Dias</name>
+			<email>20230006245@estudantes.ifpr.edu.br</email>
+			<roles>
+				<role>scrum master</role>
+			</roles>
+		</contributor>
+	</contributors>
+	<developers>
+		<developer>
+			<name>Gregory Ferreira</name>
+			<email>20230006227@estudantes.ifpr.edu.br</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Leandro Menoni</name>
+			<email>20230006352@estudantes.ifpr.edu.br</email>
+			<roles>
+				<role>data modeling</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Pedro Lino</name>
+			<email>20230006165@estudantes.ifpr.edu.br</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
 	<licenses>
 		<license/>
 	</licenses>
-	<developers>
-		<developer/>
-	</developers>
+	
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -29,6 +75,7 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
