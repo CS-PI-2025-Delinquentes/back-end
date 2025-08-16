@@ -1,9 +1,11 @@
+CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_DEV');
+
 CREATE TABLE IF NOT EXISTS "pessoa" (
     "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "email" VARCHAR(50) NOT NULL UNIQUE,
     "telefone" VARCHAR(11) NOT NULL,
     "senha" VARCHAR(30) NOT NULL,
-    "role" role NOT NULL DEFAULT 'ROLE_CLIENT',
+    "role" role NOT NULL DEFAULT 'ROLE_CLIENT'
 );
 
 CREATE TABLE IF NOT EXISTS "pessoa_juridica" (
@@ -28,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "avaliacao" (
     "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "nota" INT NOT NULL,
     "descricao" TEXT NOT NULL,
-    "pessoa_id" BIGINT NOT NULL
+    "pessoa_id" BIGINT NOT NULL,
     CONSTRAINT fk_pessoa
         FOREIGN KEY ("pessoa_id") REFERENCES "pessoa"("id")
         ON DELETE CASCADE
@@ -62,8 +64,6 @@ CREATE TABLE IF NOT EXISTS "endereco" (
 );
 
 CREATE TYPE status_pedido AS ENUM ('Pendente', 'Aceito', 'Recusado');
-
-CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_DEV');
 
 CREATE TYPE tipo_pacote AS ENUM ('Caixa', 'Envelope', 'Sacola');
 
