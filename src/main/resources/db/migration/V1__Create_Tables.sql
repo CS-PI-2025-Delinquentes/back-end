@@ -1,7 +1,6 @@
 CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_DEV');
 
 CREATE TABLE "pessoa" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "email" VARCHAR(50) NOT NULL UNIQUE,
     "telefone" VARCHAR(11) NOT NULL,
@@ -28,7 +27,6 @@ CREATE TABLE IF NOT EXISTS "pessoa_fisica" (
 );
 
 CREATE TABLE IF NOT EXISTS "avaliacao" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "nota" INT NOT NULL,
     "descricao" TEXT NOT NULL,
@@ -39,14 +37,12 @@ CREATE TABLE IF NOT EXISTS "avaliacao" (
 );
 
 CREATE TABLE IF NOT EXISTS "estado" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "nome" VARCHAR(30) NOT NULL UNIQUE,
     "sigla" CHAR(2) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS "cidade" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "nome" VARCHAR(100) NOT NULL UNIQUE,
     "estado_id" BIGINT NOT NULL,
@@ -56,7 +52,6 @@ CREATE TABLE IF NOT EXISTS "cidade" (
 );
 
 CREATE TABLE IF NOT EXISTS "endereco" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "cep" CHAR(8) NOT NULL,
     "rua" VARCHAR(255) NOT NULL,
@@ -73,7 +68,6 @@ CREATE TYPE status_pedido AS ENUM ('Pendente', 'Aceito', 'Recusado');
 CREATE TYPE tipo_pacote AS ENUM ('Caixa', 'Envelope', 'Sacola');
 
 CREATE TABLE IF NOT EXISTS "pedido" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "status" status_pedido NOT NULL DEFAULT 'Pendente',
     "pessoa_id" BIGINT NOT NULL,
@@ -91,7 +85,6 @@ CREATE TABLE IF NOT EXISTS "pedido" (
 );
 
 CREATE TABLE IF NOT EXISTS "pacote" (
---     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
     "id" SERIAL PRIMARY KEY,
     "largura" FLOAT NOT NULL,
     "altura" FLOAT NOT NULL,
