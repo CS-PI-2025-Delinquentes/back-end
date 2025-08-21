@@ -1,7 +1,8 @@
 CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_DEV');
 
-CREATE TABLE IF NOT EXISTS "pessoa" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+CREATE TABLE "pessoa" (
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "email" VARCHAR(50) NOT NULL UNIQUE,
     "telefone" VARCHAR(11) NOT NULL,
     "senha" VARCHAR(30) NOT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "pessoa_juridica" (
     "id" BIGINT PRIMARY KEY,
     "nome_fantasia" VARCHAR(255) NOT NULL,
     "cnpj" CHAR(14) NOT NULL UNIQUE,
-    CONSTRAINT fk_pessoa
+    CONSTRAINT fk_pessoa_juridica_pessoa
         FOREIGN KEY ("id") REFERENCES "pessoa"("id")
         ON DELETE CASCADE
 );
@@ -21,29 +22,32 @@ CREATE TABLE IF NOT EXISTS "pessoa_fisica" (
     "id" BIGINT PRIMARY KEY,
     "nome" VARCHAR(100) NOT NULL,
     "cpf" CHAR(11) NOT NULL UNIQUE,
-    CONSTRAINT fk_pessoa
-        FOREIGN KEY ("id") REFERENCES "pessoa"("id")
+    CONSTRAINT fk_pessoa_fisica_pessoa
+    FOREIGN KEY ("id") REFERENCES "pessoa"("id")
         ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "avaliacao" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nota" INT NOT NULL,
     "descricao" TEXT NOT NULL,
     "pessoa_id" BIGINT NOT NULL,
-    CONSTRAINT fk_pessoa
-        FOREIGN KEY ("pessoa_id") REFERENCES "pessoa"("id")
+    CONSTRAINT fk_avaliacao_pessoa
+    FOREIGN KEY ("pessoa_id") REFERENCES "pessoa"("id")
         ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "estado" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nome" VARCHAR(30) NOT NULL UNIQUE,
-    "sigla" CHAR(2) NOT NULL UNIQUE,
+    "sigla" CHAR(2) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS "cidade" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "nome" VARCHAR(100) NOT NULL UNIQUE,
     "estado_id" BIGINT NOT NULL,
     CONSTRAINT fk_estado
@@ -52,7 +56,8 @@ CREATE TABLE IF NOT EXISTS "cidade" (
 );
 
 CREATE TABLE IF NOT EXISTS "endereco" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "cep" CHAR(8) NOT NULL,
     "rua" VARCHAR(255) NOT NULL,
     "bairro" VARCHAR(100) NOT NULL,
@@ -60,7 +65,7 @@ CREATE TABLE IF NOT EXISTS "endereco" (
     "cidade_id" BIGINT NOT NULL,
     CONSTRAINT fk_cidade
         FOREIGN KEY ("cidade_id") REFERENCES "cidade"("id")
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
 );
 
 CREATE TYPE status_pedido AS ENUM ('Pendente', 'Aceito', 'Recusado');
@@ -68,14 +73,13 @@ CREATE TYPE status_pedido AS ENUM ('Pendente', 'Aceito', 'Recusado');
 CREATE TYPE tipo_pacote AS ENUM ('Caixa', 'Envelope', 'Sacola');
 
 CREATE TABLE IF NOT EXISTS "pedido" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "status" status_pedido NOT NULL DEFAULT 'Pendente',
     "pessoa_id" BIGINT NOT NULL,
     "endereco_origem_id" BIGINT NOT NULL,
     "endereco_destino_id" BIGINT NOT NULL,
-    CONSTRAINT fk_pessoa
-        FOREIGN KEY ("pessoa_id") REFERENCES "pessoa"("id")
-        ON DELETE CASCADE    CONSTRAINT fk_pessoa
+    CONSTRAINT fk_pedido_pessoa
         FOREIGN KEY ("pessoa_id") REFERENCES "pessoa"("id")
         ON DELETE CASCADE,
     CONSTRAINT fk_endereco_origem
@@ -87,9 +91,10 @@ CREATE TABLE IF NOT EXISTS "pedido" (
 );
 
 CREATE TABLE IF NOT EXISTS "pacote" (
-    "id" BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--     "id" BIGINT PRIMARY KEY AUTO_INCREMENT,
+    "id" SERIAL PRIMARY KEY,
     "largura" FLOAT NOT NULL,
-    "alura" FLOAT NOT NULL,
+    "altura" FLOAT NOT NULL,
     "comprimento" FLOAT NOT NULL,
     "peso" FLOAT NOT NULL,
     "quantidade" INT NOT NULL,
