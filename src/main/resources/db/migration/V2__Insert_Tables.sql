@@ -59,4 +59,4 @@ VALUES
 -- Inserção na tabela "pacote"
 INSERT INTO "pacote" ("largura", "altura", "comprimento", "peso", "quantidade", "tipo", "pedido_id")
 VALUES
-    (17.5, 20.0, 15.0, 5, 2, 'Caixa', 1);-- Inserção na tabela "pessoa"
+    (17.5, 20.0, 15.0, 5, 2, 'Caixa', 1);
