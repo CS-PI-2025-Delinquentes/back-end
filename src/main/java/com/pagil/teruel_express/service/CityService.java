@@ -18,11 +18,14 @@ public class CityService {
         return cityRegistered;
     }
 
+    // passar o id da cidade
     public City update(City city) {
         City cityBank = cityRepository.findById(city.getId()).orElse(null);
 
         cityBank.setName(city.getName());
         cityBank.setStatus(city.getStatus());
+        // Buscar por estado antes de atualizar o estado
+        cityBank.setState(city.getState());
 
         return cityRepository.save(cityBank);
     }

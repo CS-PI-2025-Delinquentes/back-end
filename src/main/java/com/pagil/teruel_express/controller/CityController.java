@@ -21,7 +21,7 @@ public class CityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> findById(Long id) {
+    public ResponseEntity<City> findById(@PathVariable Long id) {
         return ResponseEntity.ok(cityService.findById(id));
     }
 

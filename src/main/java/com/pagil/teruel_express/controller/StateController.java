@@ -21,7 +21,7 @@ public class StateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<State> findById(Long id) {
+    public ResponseEntity<State> findById(@PathVariable Long id) {
         return ResponseEntity.ok(stateService.findById(id));
     }
 
@@ -38,6 +38,6 @@ public class StateController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         stateService.delete(id);
-        return ResponseEntity.ok("Excluído");
+        return ResponseEntity.noContent().build();
     }
 }
