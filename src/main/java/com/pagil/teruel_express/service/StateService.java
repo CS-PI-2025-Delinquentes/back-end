@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.service;
 
+import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.model.entity.State;
 import com.pagil.teruel_express.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,11 @@ public class StateService {
     private StateRepository stateRepository;
 
     public State insert(State state) {
-        State stateRegistered = stateRepository.save(state);
-        return stateRegistered;
+        return stateRepository.save(state);
     }
 
     public State update(State state) {
-        State stateBank = stateRepository.findById(state.getId()).orElse(null);
-
+        State stateBank = findById(state.getId());
         stateBank.setName(state.getName());
         stateBank.setAcronym(state.getAcronym());
 
@@ -33,8 +32,9 @@ public class StateService {
     }
 
     public State findById(Long id) {
-        State stateBank = stateRepository.findById(id).orElse(null);
-        return stateRepository.save(stateBank);
+        return stateRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Estado ocm id id %s não encontrado", id))
+        );
     }
 
     public Page<State> findAll(Pageable pageable) {

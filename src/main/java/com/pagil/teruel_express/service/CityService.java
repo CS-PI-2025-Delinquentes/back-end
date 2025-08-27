@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.service;
 
+import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.model.entity.City;
 import com.pagil.teruel_express.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,12 @@ public class CityService {
     private CityRepository cityRepository;
 
     public City insert(City city) {
-        City cityRegistered = cityRepository.save(city);
-        return cityRegistered;
+        return cityRepository.save(city);
     }
 
     // passar o id da cidade
     public City update(City city) {
-        City cityBank = cityRepository.findById(city.getId()).orElse(null);
+        City cityBank = findById(city.getId());
 
         cityBank.setName(city.getName());
         cityBank.setStatus(city.getStatus());
@@ -36,7 +36,9 @@ public class CityService {
     }
 
     public City findById(Long id) {
-        City cityBank = cityRepository.findById(id).orElse(null);
+        City cityBank = cityRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Cidade com id %d não encontrado", id))
+        );
         return cityRepository.save(cityBank);
     }
 
