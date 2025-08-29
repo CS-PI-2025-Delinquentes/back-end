@@ -36,7 +36,7 @@ public class StateService {
 
     public State findById(Long id) {
         return stateRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Estado ocm id id %s não encontrado", id))
+                () -> new NotFoundException(String.format("Estado com id %s não encontrado", id))
         );
     }
 
