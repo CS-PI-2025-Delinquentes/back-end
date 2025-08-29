@@ -55,7 +55,7 @@ public class CityService {
         City cityBank = cityRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Cidade com id %d não encontrado", id))
         );
-        return cityRepository.save(cityBank);
+        return cityBank;
     }
 
     public Page<City> findAll(Pageable pageable) {
