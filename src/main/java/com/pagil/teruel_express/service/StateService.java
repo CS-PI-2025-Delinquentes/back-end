@@ -1,6 +1,7 @@
 package com.pagil.teruel_express.service;
 
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.model.dto.StateDTO;
 import com.pagil.teruel_express.model.entity.State;
 import com.pagil.teruel_express.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ public class StateService {
         return stateRepository.save(state);
     }
 
-    public State update(State state) {
-        State stateBank = findById(state.getId());
-        stateBank.setName(state.getName());
-        stateBank.setAcronym(state.getAcronym());
+
+    public State update(Long id, StateDTO stateDTO) {
+        State stateBank = findById(id);
+
+        stateBank.setName(stateDTO.getName());
+        stateBank.setUf(stateDTO.getUf());
 
         return stateRepository.save(stateBank);
     }

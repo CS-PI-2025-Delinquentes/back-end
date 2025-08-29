@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.controller;
 
+import com.pagil.teruel_express.model.dto.CityDTO;
 import com.pagil.teruel_express.model.entity.City;
 import com.pagil.teruel_express.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class CityController {
         return ResponseEntity.ok(cityService.insert(city));
     }
 
-    @PutMapping
-    public ResponseEntity<City> update(@RequestBody City city) {
-        return ResponseEntity.ok(cityService.update(city));
+    @PutMapping("/{id}")
+    public ResponseEntity<City> update(@PathVariable Long id, @RequestBody CityDTO cityDTO) {
+        return ResponseEntity.ok(cityService.update(id, cityDTO));
     }
 
     @DeleteMapping("/{id}")

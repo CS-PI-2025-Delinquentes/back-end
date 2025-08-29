@@ -17,5 +17,5 @@ public class State {
     private String name;
 
     @Column(name = "sigla")
-    private String acronym;
+    private String uf;
 }
