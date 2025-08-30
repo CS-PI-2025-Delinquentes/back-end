@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.controller;
 
+import com.pagil.teruel_express.model.dto.StateDTO;
 import com.pagil.teruel_express.model.entity.State;
 import com.pagil.teruel_express.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class StateController {
         return ResponseEntity.ok(stateService.insert(state));
     }
 
-    @PutMapping
-    public ResponseEntity<State> update(@RequestBody State state) {
-        return ResponseEntity.ok(stateService.update(state));
+    @PutMapping("/{id}")
+    public ResponseEntity<State> update(@PathVariable Long id, @RequestBody StateDTO stateDTO) {
+        return ResponseEntity.ok(stateService.update(id, stateDTO));
     }
 
     @DeleteMapping("/{id}")
