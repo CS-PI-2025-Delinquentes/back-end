@@ -24,11 +24,11 @@ public class JwtUtils {
     @Value("${JWT.SECRET-KEY}")
     public String SECRET_KEY;
     @Value("${JWT.EXPIRATION.DEV}")
-    private static Long EXPIRATION_TIME_DEV;
+    private Long EXPIRATION_TIME_DEV;
     @Value("${JWT.EXPIRATION.ADMIN}")
-    private static Long EXPIRATION_TIME_ADMIN;
+    private Long EXPIRATION_TIME_ADMIN;
     @Value("${JWT.EXPIRATION.CLIENT}")
-    private static Long EXPIRATION_TIME_CLIENT;
+    private Long EXPIRATION_TIME_CLIENT;
 
     private static SecretKey key;
 
@@ -37,7 +37,7 @@ public class JwtUtils {
         key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    private static Date toExpireDate(Date start, String role){
+    private Date toExpireDate(Date start, String role){
         LocalDateTime dateTime = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime end;
         if(role.matches("DEV")) {
@@ -50,7 +50,7 @@ public class JwtUtils {
         return Date.from(end.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public static JwtToken createToken(String username, String role) {
+    public JwtToken createToken(String username, String role) {
         Date issuedAt = new Date();
         Date limit = toExpireDate(issuedAt, role);
         String token = Jwts.builder()
