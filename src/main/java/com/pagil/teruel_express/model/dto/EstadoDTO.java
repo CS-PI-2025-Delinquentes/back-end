@@ -3,7 +3,7 @@ package com.pagil.teruel_express.model.dto;
 import lombok.Data;
 
 @Data
-public class StateDTO {
-    private String name;
+public class EstadoDTO {
+    private String nome;
     private String uf;
 }

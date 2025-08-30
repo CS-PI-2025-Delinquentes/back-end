@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "cidade")
-public class City {
+@Table(name = "estado")
+public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,13 +14,8 @@ public class City {
     private Long id;
 
     @Column(name = "nome")
-    private String name;
+    private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "estado_id")
-    private State state;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private StatusRota status;
+    @Column(name = "sigla")
+    private String uf;
 }

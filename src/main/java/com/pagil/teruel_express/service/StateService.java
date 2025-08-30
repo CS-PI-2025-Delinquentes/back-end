@@ -1,9 +1,9 @@
 package com.pagil.teruel_express.service;
 
 import com.pagil.teruel_express.exception.NotFoundException;
-import com.pagil.teruel_express.model.dto.StateDTO;
-import com.pagil.teruel_express.model.entity.State;
-import com.pagil.teruel_express.repository.StateRepository;
+import com.pagil.teruel_express.model.dto.EstadoDTO;
+import com.pagil.teruel_express.model.entity.Estado;
+import com.pagil.teruel_express.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,34 +13,34 @@ import org.springframework.stereotype.Service;
 public class StateService {
 
     @Autowired
-    private StateRepository stateRepository;
+    private EstadoRepository estadoRepository;
 
-    public State insert(State state) {
-        return stateRepository.save(state);
+    public Estado insert(Estado estado) {
+        return estadoRepository.save(estado);
     }
 
 
-    public State update(Long id, StateDTO stateDTO) {
-        State stateBank = findById(id);
+    public Estado update(Long id, EstadoDTO estadoDTO) {
+        Estado estadoBank = findById(id);
 
-        stateBank.setName(stateDTO.getName());
-        stateBank.setUf(stateDTO.getUf());
+        estadoBank.setNome(estadoDTO.getNome());
+        estadoBank.setUf(estadoDTO.getUf());
 
-        return stateRepository.save(stateBank);
+        return estadoRepository.save(estadoBank);
     }
 
     public void delete(Long id) {
-        State stateBank = findById(id);
-        stateRepository.delete(stateBank);
+        Estado estadoBank = findById(id);
+        estadoRepository.delete(estadoBank);
     }
 
-    public State findById(Long id) {
-        return stateRepository.findById(id).orElseThrow(
+    public Estado findById(Long id) {
+        return estadoRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Estado com id %s não encontrado", id))
         );
     }
 
-    public Page<State> findAll(Pageable pageable) {
-        return stateRepository.findAll(pageable);
+    public Page<Estado> findAll(Pageable pageable) {
+        return estadoRepository.findAll(pageable);
     }
 }
