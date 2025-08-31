@@ -1,3 +1,3 @@
-CREATE TYPE status_rota AS ENUM ('Ativo', 'Inativo', 'Excluido');
+CREATE TYPE status_rota AS ENUM ('ATIVO', 'INATIVO', 'EXCLUIDO');
 
-ALTER TABLE "cidade" ADD COLUMN "status" status_rota NOT NULL DEFAULT 'Ativo';
+ALTER TABLE "cidade" ADD COLUMN "status" status_rota NOT NULL DEFAULT 'ATIVO';
