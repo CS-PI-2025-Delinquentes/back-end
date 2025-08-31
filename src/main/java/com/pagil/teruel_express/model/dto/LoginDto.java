@@ -13,7 +13,7 @@ public class LoginDto {
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
     @NotBlank
-    @Size(min = 6) // O certo seria 8, mas vai dar pau com o banco
+    @Size(min = 8)
     @JsonProperty("password")
     private String senha;
 
