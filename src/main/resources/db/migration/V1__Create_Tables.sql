@@ -63,13 +63,13 @@ CREATE TABLE IF NOT EXISTS "endereco" (
         ON DELETE CASCADE
 );
 
-CREATE TYPE status_pedido AS ENUM ('Pendente', 'Aceito', 'Recusado');
+CREATE TYPE status_pedido AS ENUM ('PENDENTE', 'ACEITO', 'RECUSADO');
 
-CREATE TYPE tipo_pacote AS ENUM ('Caixa', 'Envelope', 'Sacola');
+CREATE TYPE tipo_pacote AS ENUM ('CAIXA', 'ENVELOPE', 'SACOLA');
 
 CREATE TABLE IF NOT EXISTS "pedido" (
     "id" SERIAL PRIMARY KEY,
-    "status" status_pedido NOT NULL DEFAULT 'Pendente',
+    "status" status_pedido NOT NULL DEFAULT 'PENDENTE',
     "pessoa_id" BIGINT NOT NULL,
     "endereco_origem_id" BIGINT NOT NULL,
     "endereco_destino_id" BIGINT NOT NULL,

@@ -54,9 +54,9 @@ VALUES
 -- Inserção na tabela "pedido"
 INSERT INTO "pedido" ("status", "pessoa_id", "endereco_origem_id", "endereco_destino_id")
 VALUES
-    ('Pendente', 2, 1, 2);
+    ('PENDENTE', 2, 1, 2);
 
 -- Inserção na tabela "pacote"
 INSERT INTO "pacote" ("largura", "altura", "comprimento", "peso", "quantidade", "tipo", "pedido_id")
 VALUES
-    (17.5, 20.0, 15.0, 5, 2, 'Caixa', 1);
+    (17.5, 20.0, 15.0, 5, 2, 'CAIXA', 1);
