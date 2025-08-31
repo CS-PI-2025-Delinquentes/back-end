@@ -15,7 +15,11 @@ public class EstadoService {
     @Autowired
     private EstadoRepository estadoRepository;
 
-    public Estado insert(Estado estado) {
+    public Estado insert(EstadoDTO estadoDTO) {
+        Estado estado = new Estado();
+        estado.setNome(estadoDTO.getNome());
+        estado.setUf(estadoDTO.getUf());
+
         return estadoRepository.save(estado);
     }
 

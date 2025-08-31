@@ -27,8 +27,8 @@ public class EstadoController {
     }
 
     @PostMapping
-    public ResponseEntity<Estado> save(@RequestBody Estado estado) {
-        return ResponseEntity.ok(estadoService.insert(estado));
+    public ResponseEntity<Estado> save(@RequestBody EstadoDTO estadoDTO) {
+        return ResponseEntity.ok(estadoService.insert(estadoDTO));
     }
 
     @PutMapping("/{id}")
@@ -37,7 +37,7 @@ public class EstadoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         estadoService.delete(id);
         return ResponseEntity.noContent().build();
     }
