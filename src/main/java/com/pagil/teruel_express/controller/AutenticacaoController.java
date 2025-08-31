@@ -4,8 +4,6 @@ import com.pagil.teruel_express.exception.handler.ErrorMessage;
 import com.pagil.teruel_express.jwt.JwtToken;
 import com.pagil.teruel_express.jwt.JwtUserDetailsService;
 import com.pagil.teruel_express.model.dto.LoginDto;
-import com.pagil.teruel_express.model.entity.PessoaFisica;
-import com.pagil.teruel_express.service.TesteService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,6 @@ public class AutenticacaoController {
 
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
-    private final TesteService service;
 
     @PostMapping("/login")
     public ResponseEntity<?> autenticar(@RequestBody @Valid LoginDto dto, HttpServletRequest request) {
@@ -43,10 +40,5 @@ public class AutenticacaoController {
             return ResponseEntity.badRequest()
                     .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, "Credenciais Inválidas"));
         }
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> cadastrar(@RequestBody PessoaFisica cadastro) {
-        return ResponseEntity.ok(service.testeCriar(cadastro));
     }
 }
