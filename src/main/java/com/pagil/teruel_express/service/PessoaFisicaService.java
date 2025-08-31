@@ -2,6 +2,7 @@ package com.pagil.teruel_express.service;
 
 import com.pagil.teruel_express.exception.EmailCpfUniqueViolationException;
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.model.dto.PessoaFisicaCreateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.dto.PessoaFisicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
@@ -23,17 +24,30 @@ public class PessoaFisicaService {
     @Autowired
     private EmailService emailService;
 
-    public PessoaFisica insert(PessoaFisica pessoaFisica) {
-        Optional<PessoaFisica> pessoaFisicaBank = pessoaFisicaRepository.findByEmailOrCpf(pessoaFisica.getEmail(), pessoaFisica.getCpf());
+    public PessoaFisica insert(PessoaFisicaCreateDTO pessoaFisicaCreateDTO) {
+        Optional<PessoaFisica> pessoaFisicaBank = pessoaFisicaRepository.findByEmailOrCpf(pessoaFisicaCreateDTO.getEmail(), pessoaFisicaCreateDTO.getCpf());
         if (pessoaFisicaBank.isPresent()) {
             throw new EmailCpfUniqueViolationException("Email ou CPF já cadastrado");
         }
 
-        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        pessoaFisica.setSenha(encode.encode(pessoaFisica.getSenha()));
+        PessoaFisica pessoaFisicaNova = getPessoaFisica(pessoaFisicaCreateDTO);
 
-        enviarEmailSucesso(pessoaFisica);
-        return pessoaFisicaRepository.save(pessoaFisica);
+        enviarEmailSucesso(pessoaFisicaNova);
+        return pessoaFisicaRepository.save(pessoaFisicaNova);
+    }
+
+    private static PessoaFisica getPessoaFisica(PessoaFisicaCreateDTO pessoaFisicaCreateDTO) {
+        PessoaFisica pessoaFisicaNova = new PessoaFisica();
+        pessoaFisicaNova.setNome(pessoaFisicaCreateDTO.getNome());
+        pessoaFisicaNova.setEmail(pessoaFisicaCreateDTO.getEmail());
+        pessoaFisicaNova.setCpf(pessoaFisicaCreateDTO.getCpf());
+        pessoaFisicaNova.setTelefone(pessoaFisicaCreateDTO.getTelefone());
+        pessoaFisicaNova.setRole(pessoaFisicaCreateDTO.getRole());
+
+
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        pessoaFisicaNova.setSenha(encode.encode(pessoaFisicaCreateDTO.getSenha()));
+        return pessoaFisicaNova;
     }
 
     private void enviarEmailSucesso(PessoaFisica pessoaFisica) {

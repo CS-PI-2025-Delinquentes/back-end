@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.controller;
 
+import com.pagil.teruel_express.model.dto.PessoaJuridicaCreateDTO;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
 import com.pagil.teruel_express.service.PessoaJuridicaService;
@@ -27,8 +28,8 @@ public class PessoaJuridicaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaJuridica> save(@RequestBody PessoaJuridica pessoaJuridica) {
-        return ResponseEntity.ok(pessoaJuridicaService.insert(pessoaJuridica));
+    public ResponseEntity<PessoaJuridica> save(@RequestBody PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
+        return ResponseEntity.ok(pessoaJuridicaService.insert(pessoaJuridicaCreateDTO));
     }
 
     @PutMapping("/{id}")
@@ -37,7 +38,7 @@ public class PessoaJuridicaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PessoaJuridica> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         pessoaJuridicaService.delete(id);
         return ResponseEntity.notFound().build();
     }

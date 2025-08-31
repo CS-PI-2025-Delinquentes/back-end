@@ -23,11 +23,20 @@ public class CidadeService {
     @Autowired
     private EstadoRepository estadoRepository;
 
-    public Cidade insert(Cidade cidade) {
-        Optional<Cidade> cityBank = cidadeRepository.findByNomeAndEstado(cidade.getNome(), cidade.getEstado());
-        if(cityBank.isPresent()) {
+    public Cidade insert(CidadeDTO cidadeDTO) {
+        Estado estadoBank = estadoRepository.findById(cidadeDTO.getEstadoId()).orElseThrow(
+                () -> new NotFoundException("Estado não encontrado")
+        );
+
+        Optional<Cidade> cidadeBank = cidadeRepository.findByNomeAndEstado(cidadeDTO.getNome(), estadoBank);
+        if(cidadeBank.isPresent()) {
             throw new CityStateUniqueViolationException("Cidade já cadastrada nesse Estado");
         }
+
+        Cidade cidade = new Cidade();
+        cidade.setNome(cidadeDTO.getNome());
+        cidade.setStatus(cidadeDTO.getStatus());
+        cidade.setEstado(estadoBank);
 
         return cidadeRepository.save(cidade);
     }

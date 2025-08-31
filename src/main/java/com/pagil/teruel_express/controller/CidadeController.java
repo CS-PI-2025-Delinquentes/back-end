@@ -27,8 +27,8 @@ public class CidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<Cidade> save(@RequestBody Cidade cidade) {
-        return ResponseEntity.ok(cidadeService.insert(cidade));
+    public ResponseEntity<Cidade> save(@RequestBody CidadeDTO cidadeDTO) {
+        return ResponseEntity.ok(cidadeService.insert(cidadeDTO));
     }
 
     @PutMapping("/{id}")
@@ -37,7 +37,7 @@ public class CidadeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         cidadeService.delete(id);
         return ResponseEntity.noContent().build();
     }

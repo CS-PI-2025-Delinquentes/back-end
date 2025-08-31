@@ -52,7 +52,7 @@ public class AvaliacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Avaliacao> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         avaliacaoService.delete(id);
         return ResponseEntity.noContent().build();
     }

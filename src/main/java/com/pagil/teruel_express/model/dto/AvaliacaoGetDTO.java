@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class AvaliacaoGetDTO {
+
     private Integer nota;
     private String descricao;
     private String nomeAvaliador;

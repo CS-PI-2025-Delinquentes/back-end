@@ -2,6 +2,7 @@ package com.pagil.teruel_express.service;
 
 import com.pagil.teruel_express.exception.EmailCnpjUniqueViolationException;
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.model.dto.PessoaJuridicaCreateDTO;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
@@ -24,17 +25,29 @@ public class PessoaJuridicaService {
     @Autowired
     private EmailService emailService;
 
-    public PessoaJuridica insert(PessoaJuridica pessoaJuridica) {
-        Optional<PessoaJuridica> pessoaJuridicaBank = pessoaJuridicaRepository.findByEmailOrCnpj(pessoaJuridica.getEmail(), pessoaJuridica.getCnpj());
+    public PessoaJuridica insert(PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
+        Optional<PessoaJuridica> pessoaJuridicaBank = pessoaJuridicaRepository.findByEmailOrCnpj(pessoaJuridicaCreateDTO.getEmail(), pessoaJuridicaCreateDTO.getCnpj());
         if (pessoaJuridicaBank.isPresent()) {
             throw new EmailCnpjUniqueViolationException("Email ou CNPJ já cadastrado");
         }
 
-        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        pessoaJuridica.setSenha(encode.encode(pessoaJuridica.getSenha()));
+        PessoaJuridica pessoaJuridicaNova = getPessoaJuridica(pessoaJuridicaCreateDTO);
 
-        enviarEmailSucesso(pessoaJuridica);
-        return pessoaJuridicaRepository.save(pessoaJuridica);
+        enviarEmailSucesso(pessoaJuridicaNova);
+        return pessoaJuridicaRepository.save(pessoaJuridicaNova);
+    }
+
+    private static PessoaJuridica getPessoaJuridica(PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
+        PessoaJuridica pessoaJuridicaNova =  new PessoaJuridica();
+        pessoaJuridicaNova.setNome_fantasia(pessoaJuridicaCreateDTO.getNomeFantasia());
+        pessoaJuridicaNova.setEmail(pessoaJuridicaCreateDTO.getEmail());
+        pessoaJuridicaNova.setTelefone(pessoaJuridicaCreateDTO.getTelefone());
+        pessoaJuridicaNova.setCnpj(pessoaJuridicaCreateDTO.getCnpj());
+        pessoaJuridicaNova.setRole(pessoaJuridicaCreateDTO.getRole());
+
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        pessoaJuridicaNova.setSenha(encode.encode(pessoaJuridicaCreateDTO.getSenha()));
+        return pessoaJuridicaNova;
     }
 
     private void enviarEmailSucesso(PessoaJuridica pessoaJuridica) {
