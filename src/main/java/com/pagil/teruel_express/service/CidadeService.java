@@ -19,6 +19,7 @@ public class CidadeService {
 
     @Autowired
     private CidadeRepository cidadeRepository;
+
     @Autowired
     private EstadoRepository estadoRepository;
 
