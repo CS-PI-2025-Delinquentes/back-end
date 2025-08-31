@@ -4,7 +4,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 public enum StatusRota {
-    Ativo,
-    Inativo,
-    Excluido;
+    ATIVO,
+    INATIVO,
+    EXCLUIDO;
 }

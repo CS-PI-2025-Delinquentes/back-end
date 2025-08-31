@@ -1,6 +1,8 @@
 package com.pagil.teruel_express.exception.handler;
 
 import com.pagil.teruel_express.exception.CityStateUniqueViolationException;
+import com.pagil.teruel_express.exception.EmailCnpjUniqueViolationException;
+import com.pagil.teruel_express.exception.EmailCpfUniqueViolationException;
 import com.pagil.teruel_express.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,22 @@ public class ApiHandler {
 
     @ExceptionHandler(CityStateUniqueViolationException.class)
     public ResponseEntity<ErrorMessage> cityStateUniqueViolationException(CityStateUniqueViolationException ex, HttpServletRequest request) {
+        log.error("Api Error - ", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(EmailCpfUniqueViolationException.class)
+    public ResponseEntity<ErrorMessage> emailCpfUniqueViolationException(EmailCpfUniqueViolationException ex, HttpServletRequest request) {
+        log.error("Api Error - ", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(EmailCnpjUniqueViolationException.class)
+    public ResponseEntity<ErrorMessage> emailCnpjUniqueErrorMessageResponseEntity (EmailCnpjUniqueViolationException ex, HttpServletRequest request) {
         log.error("Api Error - ", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
