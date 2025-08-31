@@ -2,10 +2,12 @@ package com.pagil.teruel_express.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "pessoa_fisica")
 public class PessoaFisica extends Pessoa {
     @Column(nullable = false, name = "nome")
     private String nome;
