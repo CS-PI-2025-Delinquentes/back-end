@@ -46,4 +46,26 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");
         }
     }
+
+    public Pessoa getPessoaLogada(String username) {
+        if (username.length() == 11) {
+            return fisicaService.buscarPorCpf(username);
+        } else if (username.length() == 14) {
+            return juridicaService.buscarPorCnpj(username);
+        }
+        else {
+            throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");
+        }
+    }
+
+    public String getNomeLogado(String username) {
+        Pessoa pessoa = getPessoaLogada(username);
+        if(pessoa instanceof PessoaFisica){
+            return ((PessoaFisica) pessoa).getNome();
+        } else if(pessoa instanceof PessoaJuridica){
+            return ((PessoaJuridica) pessoa).getNomeFantasia();
+        } else {
+            throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");
+        }
+    }
 }

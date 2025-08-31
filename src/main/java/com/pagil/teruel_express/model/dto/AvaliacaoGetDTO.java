@@ -25,7 +25,7 @@ public class AvaliacaoGetDTO {
         if (pessoa instanceof PessoaFisica) {
             return ((PessoaFisica) pessoa).getNome();
         } else if (pessoa instanceof PessoaJuridica) {
-            return ((PessoaJuridica) pessoa).getNome_fantasia();
+            return ((PessoaJuridica) pessoa).getNomeFantasia();
         }
         return "N/A";
     }
