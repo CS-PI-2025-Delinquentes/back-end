@@ -2,7 +2,7 @@ package com.pagil.teruel_express.controller;
 
 import com.pagil.teruel_express.model.dto.CidadeDTO;
 import com.pagil.teruel_express.model.entity.Cidade;
-import com.pagil.teruel_express.service.CityService;
+import com.pagil.teruel_express.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,31 +14,31 @@ import org.springframework.web.bind.annotation.*;
 public class CidadeController {
 
     @Autowired
-    private CityService cityService;
+    private CidadeService cidadeService;
 
     @GetMapping
     public ResponseEntity<Page<Cidade>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(cityService.findAll(pageable));
+        return ResponseEntity.ok(cidadeService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cidade> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(cityService.findById(id));
+        return ResponseEntity.ok(cidadeService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<Cidade> save(@RequestBody Cidade cidade) {
-        return ResponseEntity.ok(cityService.insert(cidade));
+        return ResponseEntity.ok(cidadeService.insert(cidade));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cidade> update(@PathVariable Long id, @RequestBody CidadeDTO cidadeDTO) {
-        return ResponseEntity.ok(cityService.update(id, cidadeDTO));
+        return ResponseEntity.ok(cidadeService.update(id, cidadeDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        cityService.delete(id);
+        cidadeService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
