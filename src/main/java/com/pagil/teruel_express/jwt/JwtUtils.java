@@ -32,6 +32,8 @@ public class JwtUtils {
 
     private static SecretKey key;
 
+    public JwtUtils() {}
+
     @PostConstruct
     public void init() {
         key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));

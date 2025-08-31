@@ -39,7 +39,7 @@ public class PessoaJuridicaService {
 
     private static PessoaJuridica getPessoaJuridica(PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
         PessoaJuridica pessoaJuridicaNova =  new PessoaJuridica();
-        pessoaJuridicaNova.setNome_fantasia(pessoaJuridicaCreateDTO.getNomeFantasia());
+        pessoaJuridicaNova.setNomeFantasia(pessoaJuridicaCreateDTO.getNomeFantasia());
         pessoaJuridicaNova.setEmail(pessoaJuridicaCreateDTO.getEmail());
         pessoaJuridicaNova.setTelefone(pessoaJuridicaCreateDTO.getTelefone());
         pessoaJuridicaNova.setCnpj(pessoaJuridicaCreateDTO.getCnpj());
@@ -52,14 +52,14 @@ public class PessoaJuridicaService {
 
     private void enviarEmailSucesso(PessoaJuridica pessoaJuridica) {
         Context context = new Context();
-        context.setVariable("nome", pessoaJuridica.getNome_fantasia());
+        context.setVariable("nome", pessoaJuridica.getNomeFantasia());
         emailService.emailTemplate(pessoaJuridica.getEmail(), "Cadastro Teruel Express", context, "cadastroTeruelExpress");
     }
 
     public PessoaJuridica update(Long id, PessoaJuridicaUpdateDTO pessoaJuridicaUpdateDTO) {
         PessoaJuridica pessoaJuridicaBank = findById(id);
 
-        pessoaJuridicaBank.setNome_fantasia(pessoaJuridicaUpdateDTO.getNomeFantasia());
+        pessoaJuridicaBank.setNomeFantasia(pessoaJuridicaUpdateDTO.getNomeFantasia());
         pessoaJuridicaBank.setEmail(pessoaJuridicaUpdateDTO.getEmail());
         pessoaJuridicaBank.setTelefone(pessoaJuridicaUpdateDTO.getTelefone());
 
