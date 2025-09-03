@@ -3,6 +3,7 @@ package com.pagil.teruel_express.controller;
 import com.pagil.teruel_express.exception.handler.ErrorMessage;
 import com.pagil.teruel_express.jwt.JwtToken;
 import com.pagil.teruel_express.jwt.JwtUserDetailsService;
+import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.dto.LoginDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -40,10 +41,11 @@ public class AutenticacaoController {
         }
     }
 
-    @GetMapping("/nome")
-    public ResponseEntity<String> getNome() {
-        String nome = detailsService.getNomeLogado(SecurityContextHolder.getContext().getAuthentication().getName());
-        log.info("Nome ou nome fantasia {}",nome);
-        return ResponseEntity.ok(nome);
+    @GetMapping("/home")
+    public ResponseEntity<HomePageDto> getInfo() {
+        HomePageDto informacoes = detailsService.getNomeTipoPessoaLogado(SecurityContextHolder.getContext().getAuthentication().getName());
+        log.info("Nome ou nome fantasia {}",informacoes.getNome());
+        log.info("Tipo da conta {}",informacoes.getTipoConta());
+        return ResponseEntity.ok(informacoes);
     }
 }
