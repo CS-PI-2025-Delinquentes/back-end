@@ -72,10 +72,9 @@ public class PessoaFisicaService {
     }
 
     public PessoaFisica findById(Long id) {
-        PessoaFisica pessoaFisicaBank = pessoaFisicaRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Pessoa fisica com id %d não encontrado", id))
+        return pessoaFisicaRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Pessoa física com id %d não encontrado", id))
         );
-        return pessoaFisicaBank;
     }
 
     public Page<PessoaFisica> findAll(Pageable pageable) {
