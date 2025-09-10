@@ -8,12 +8,12 @@ import com.pagil.teruel_express.model.entity.Estado;
 import com.pagil.teruel_express.model.entity.StatusRota;
 import com.pagil.teruel_express.repository.CidadeRepository;
 import com.pagil.teruel_express.repository.EstadoRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,8 +25,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Slf4j
-@SpringBootTest
 public class CidadeServiceTest {
 
     @Mock
@@ -37,6 +35,11 @@ public class CidadeServiceTest {
 
     @InjectMocks
     CidadeService service;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testInsertCidadeCerto() {
@@ -125,7 +128,9 @@ public class CidadeServiceTest {
         cidadeDto.setNome("Cidade");
         cidadeDto.setStatus(StatusRota.ATIVO);
         cidadeDto.setEstadoId(1L);
+        Cidade cidade = new Cidade();
 
+        Mockito.when(cidadeRepository.findById(1L)).thenReturn(Optional.of(cidade));
         Mockito.when(estadoRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.update(1L, cidadeDto));
