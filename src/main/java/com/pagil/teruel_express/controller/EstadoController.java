@@ -1,0 +1,44 @@
+package com.pagil.teruel_express.controller;
+
+import com.pagil.teruel_express.model.dto.EstadoDTO;
+import com.pagil.teruel_express.model.entity.Estado;
+import com.pagil.teruel_express.service.EstadoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/estados")
+public class EstadoController {
+
+    @Autowired
+    private EstadoService estadoService;
+
+    @GetMapping
+    public ResponseEntity<Page<Estado>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(estadoService.findAll(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Estado> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(estadoService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Estado> save(@RequestBody EstadoDTO estadoDTO) {
+        return ResponseEntity.ok(estadoService.insert(estadoDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Estado> update(@PathVariable Long id, @RequestBody EstadoDTO estadoDTO) {
+        return ResponseEntity.ok(estadoService.update(id, estadoDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        estadoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
