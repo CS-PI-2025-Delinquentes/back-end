@@ -5,17 +5,17 @@ import com.pagil.teruel_express.model.entity.Avaliacao;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.dto.AvaliacaoUpdateDTO;
 import com.pagil.teruel_express.repository.AvaliacaoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class AvaliacaoServiceTest {
 
     @InjectMocks
@@ -23,6 +23,11 @@ public class AvaliacaoServiceTest {
 
     @Mock
     AvaliacaoRepository repository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testInsertAvaliacao() {

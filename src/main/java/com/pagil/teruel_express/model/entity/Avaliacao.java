@@ -3,8 +3,6 @@ package com.pagil.teruel_express.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.xml.stream.XMLInputFactory;
-
 @Data
 @Entity
 @Table(name = "avaliacao")
