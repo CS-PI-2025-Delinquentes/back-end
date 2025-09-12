@@ -3,6 +3,8 @@ package com.pagil.teruel_express.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @Table(name = "avaliacao")
@@ -18,6 +20,9 @@ public class Avaliacao {
 
     @Column(nullable = false, name = "descricao")
     private String descricao;
+
+    @Column(nullable = false, name = "data_avaliacao")
+    private LocalDate dataAvaliacao = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "pessoa_id")

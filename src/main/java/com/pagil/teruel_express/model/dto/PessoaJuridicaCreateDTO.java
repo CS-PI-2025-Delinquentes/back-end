@@ -1,6 +1,7 @@
 package com.pagil.teruel_express.model.dto;
 
 import com.pagil.teruel_express.model.entity.Pessoa;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -8,20 +9,20 @@ import lombok.Data;
 @Data
 public class PessoaJuridicaCreateDTO {
 
-    @NotNull
+    @NotBlank
     private String nomeFantasia;
 
-    @NotNull
+    @NotBlank
     @Size(min = 14, max = 14)
     private String cnpj;
 
-    @NotNull
+    @NotBlank
     private String email;
 
-    @NotNull
+    @NotBlank
     private String telefone;
 
-    @NotNull
+    @NotBlank
     @Size(min = 8)
     private String senha;
 
