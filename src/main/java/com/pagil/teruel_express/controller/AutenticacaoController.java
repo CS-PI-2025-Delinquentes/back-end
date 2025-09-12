@@ -3,6 +3,7 @@ package com.pagil.teruel_express.controller;
 import com.pagil.teruel_express.exception.handler.ErrorMessage;
 import com.pagil.teruel_express.jwt.JwtToken;
 import com.pagil.teruel_express.jwt.JwtUserDetailsService;
+import com.pagil.teruel_express.jwt.UserContextService;
 import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.dto.LoginDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -25,6 +27,7 @@ public class AutenticacaoController {
 
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
+    private final UserContextService contextService;
 
     @PostMapping("/login")
     public ResponseEntity<?> autenticar(@RequestBody @Valid LoginDto dto, HttpServletRequest request) {
@@ -43,9 +46,6 @@ public class AutenticacaoController {
 
     @GetMapping("/home")
     public ResponseEntity<HomePageDto> getInfo() {
-        HomePageDto informacoes = detailsService.getNomeTipoPessoaLogado(SecurityContextHolder.getContext().getAuthentication().getName());
-        log.info("Nome ou nome fantasia {}",informacoes.getNome());
-        log.info("Tipo da conta {}",informacoes.getTipoConta());
-        return ResponseEntity.ok(informacoes);
+        return ResponseEntity.ok(contextService.getCurrentHomePageInfo());
     }
 }
