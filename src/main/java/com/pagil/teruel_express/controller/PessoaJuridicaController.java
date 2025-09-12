@@ -4,6 +4,7 @@ import com.pagil.teruel_express.model.dto.PessoaJuridicaCreateDTO;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
 import com.pagil.teruel_express.service.PessoaJuridicaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class PessoaJuridicaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaJuridica> save(@RequestBody PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
+    public ResponseEntity<PessoaJuridica> save(@RequestBody @Valid   PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
         return ResponseEntity.ok(pessoaJuridicaService.insert(pessoaJuridicaCreateDTO));
     }
 

@@ -46,9 +46,6 @@ public class AutenticacaoController {
 
     @GetMapping("/home")
     public ResponseEntity<HomePageDto> getInfo() {
-        HomePageDto informacoes = contextService.getCurrentHomePageInfo();
-        log.info("Nome ou nome fantasia {}",informacoes.getNome());
-        log.info("Tipo da conta {}",informacoes.getTipoConta());
-        return ResponseEntity.ok(informacoes);
+        return ResponseEntity.ok(contextService.getCurrentHomePageInfo());
     }
 }
