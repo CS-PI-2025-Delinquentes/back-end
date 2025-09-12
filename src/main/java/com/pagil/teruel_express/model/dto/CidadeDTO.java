@@ -1,17 +1,17 @@
 package com.pagil.teruel_express.model.dto;
 
 import com.pagil.teruel_express.model.entity.StatusRota;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class CidadeDTO {
-    @NotNull
+    @NotBlank
     private String nome;
 
-    @NotNull
+    @NotBlank
     private Long estadoId;
 
-    @NotNull
+    @NotBlank
     private StatusRota status;
 }

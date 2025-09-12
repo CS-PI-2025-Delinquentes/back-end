@@ -6,17 +6,23 @@ import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class AvaliacaoGetDTO {
 
+    private Long id;
     private Integer nota;
     private String descricao;
     private String nomeAvaliador;
+    private LocalDate dataAvaliacao;
 
     public AvaliacaoGetDTO(Avaliacao avaliacao) {
+        this.id = avaliacao.getId();
         this.nota = avaliacao.getNota();
         this.descricao = avaliacao.getDescricao();
         this.nomeAvaliador = getNomeAvaliador(avaliacao.getPessoa());
+        this.dataAvaliacao = avaliacao.getDataAvaliacao();
     }
 
     public AvaliacaoGetDTO() {}
