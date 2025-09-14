@@ -1,18 +1,18 @@
 package com.pagil.teruel_express.model.dto;
 
 import com.pagil.teruel_express.model.entity.Pessoa;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class PessoaFisicaUpdateDTO {
 
-    @NotNull
+    @NotBlank
     private String nome;
 
-    @NotNull
+    @NotBlank
     private String email;
 
-    @NotNull
+    @NotBlank
     private String telefone;
 }
