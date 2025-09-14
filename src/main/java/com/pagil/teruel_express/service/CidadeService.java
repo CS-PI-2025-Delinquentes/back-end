@@ -72,7 +72,7 @@ public class CidadeService {
         return cidadeBank;
     }
 
-    private Cidade findByName (String nome){
+    private Cidade findByName(String nome){
         return cidadeRepository.findByNomeIgnoreCase(nome).orElseThrow(
                 () -> {
                     log.warn("Verifique se a cidade está escrita corretamente ignorando Case");
@@ -81,10 +81,27 @@ public class CidadeService {
         );
     }
 
-    public Cidade buscarPorNomeSeAtendida (String nome){
+    private Cidade findByNameAndStateName(String cidade, String estado){
+        return cidadeRepository.findByNomeIgnoreCaseAndEstadoNomeIgnoreCase(cidade, estado).orElseThrow(
+                () -> {
+                    log.warn("Verifique: \n1. Se a cidade está escrita corretamente ignorando Case.\n2. Se o estado está escrito corretamente, ignorando case.\n3. Se a cidade está no estado certo.");
+                    return new NotFoundException(String.format("Cidade com nome: %s não encontrada no estado: %s", cidade, estado));
+                }
+        );
+    }
+
+    public Cidade buscarPorNomeSeAtendida(String nome){
         Cidade rota = findByName(nome);
         if(rota.getStatus() != StatusRota.ATIVO) {
             throw new RouteNotAvailableException(String.format("A rota: %s não está sendo atendida", nome));
+        }
+        else return rota;
+    }
+
+    public Cidade buscarPorNomeSeAtendida(String cidade, String estado){
+        Cidade rota = findByNameAndStateName(cidade, estado);
+        if(rota.getStatus() != StatusRota.ATIVO) {
+            throw new RouteNotAvailableException(String.format("A rota: %s não está sendo atendida", cidade));
         }
         else return rota;
     }
