@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.service;
 
+import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.model.dto.EnderecoDTO;
 import com.pagil.teruel_express.model.dto.mapper.EnderecoMapper;
 import com.pagil.teruel_express.model.entity.Cidade;
@@ -24,6 +25,13 @@ public class EnderecoService {
         Cidade cidade = cidadeService.buscarPorNomeSeAtendida(dto.getCidade());
         Endereco endereco = EnderecoMapper.toEndereco(dto, cidade);
         return repository.save(endereco);
+    }
+
+    public EnderecoDTO findById(Long id) {
+        Endereco endereco = repository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Endereço de id: %d não encontrado", id))
+        );
+        return EnderecoMapper.toDto(endereco);
     }
 
 }

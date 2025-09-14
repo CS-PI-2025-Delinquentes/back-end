@@ -2,8 +2,10 @@ package com.pagil.teruel_express.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 @Entity
 @Table(name = "endereco")
 public class Endereco {

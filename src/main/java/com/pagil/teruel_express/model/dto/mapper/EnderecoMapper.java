@@ -4,7 +4,6 @@ import com.pagil.teruel_express.model.dto.EnderecoDTO;
 import com.pagil.teruel_express.model.entity.Cidade;
 import com.pagil.teruel_express.model.entity.Endereco;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 
 public class EnderecoMapper {
 
@@ -14,11 +13,10 @@ public class EnderecoMapper {
         return endereco;
     }
 
-    public static EnderecoDTO toEnderecoDTO(Endereco endereco) {
+    public static EnderecoDTO toDto(Endereco endereco) {
         EnderecoDTO dto = new ModelMapper().map(endereco, EnderecoDTO.class);
         dto.setCidade(endereco.getCidade().getNome());
         return dto;
     }
-
 
 }
