@@ -22,5 +22,4 @@ public class PageableDTO {
     private int totalPages;
     private int totalElements;
 
-
 }
