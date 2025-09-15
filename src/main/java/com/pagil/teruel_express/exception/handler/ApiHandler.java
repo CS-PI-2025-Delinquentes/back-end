@@ -82,6 +82,14 @@ public class ApiHandler {
                 .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
+    @ExceptionHandler(BusinessLogicException.class)
+    public ResponseEntity<ErrorMessage> businessLogicException(BusinessLogicException ex, HttpServletRequest request) {
+        log.error("Logic Error - ", ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request) {
         log.error("Api Error - ", ex);
