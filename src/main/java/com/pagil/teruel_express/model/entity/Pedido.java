@@ -2,8 +2,10 @@ package com.pagil.teruel_express.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -14,7 +16,7 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "status")
-    private StatusPedido status;
+    private StatusPedido status = StatusPedido.PENDENTE;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
