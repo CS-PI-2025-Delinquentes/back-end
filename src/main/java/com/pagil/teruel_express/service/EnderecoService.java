@@ -27,7 +27,13 @@ public class EnderecoService {
         return repository.save(endereco);
     }
 
-    public EnderecoDTO findById(Long id) {
+    public Endereco findById(Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Endereço de id: %d não encontrado", id))
+        );
+    }
+
+    public EnderecoDTO findByIdDto(Long id) {
         Endereco endereco = repository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Endereço de id: %d não encontrado", id))
         );
