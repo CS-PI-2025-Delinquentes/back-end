@@ -24,9 +24,6 @@ public class PedidoService {
     @Autowired
     private UserContextService userService;
 
-    @Autowired
-    private CidadeRepository cidadeRepository;
-
     public Pedido insert(Pedido pedido) {
         return repository.save(pedido);
     }

@@ -1,4 +1,4 @@
-package com.pagil.teruel_express.model.dto.mapper;
+package com.pagil.teruel_express.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
