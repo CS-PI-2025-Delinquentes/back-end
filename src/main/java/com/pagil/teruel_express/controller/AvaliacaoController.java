@@ -1,13 +1,11 @@
 package com.pagil.teruel_express.controller;
 
 import com.pagil.teruel_express.model.dto.AvaliacaoCreateDTO;
-import com.pagil.teruel_express.model.dto.AvaliacaoGetDTO;
+import com.pagil.teruel_express.model.dto.AvaliacaoResponseDTO;
 import com.pagil.teruel_express.model.dto.AvaliacaoUpdateDTO;
 import com.pagil.teruel_express.model.entity.Avaliacao;
-import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.repository.PessoaRepository;
 import com.pagil.teruel_express.service.AvaliacaoService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,25 +23,18 @@ public class AvaliacaoController {
     private PessoaRepository pessoaRepository;
 
     @GetMapping
-    public ResponseEntity<Page<AvaliacaoGetDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<AvaliacaoResponseDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok(avaliacaoService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AvaliacaoGetDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<AvaliacaoResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(avaliacaoService.findByIdGet(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> criarAvaliacao(@RequestBody AvaliacaoCreateDTO dto) {
-        Pessoa pessoa = pessoaRepository.findById(dto.getPessoaId())
-                .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
-        Avaliacao avaliacao = new Avaliacao();
-        avaliacao.setNota(dto.getNota());
-        avaliacao.setDescricao(dto.getDescricao());
-        avaliacao.setPessoa(pessoa);
-
-        return ResponseEntity.ok(avaliacaoService.insert(avaliacao));
+    public ResponseEntity<AvaliacaoResponseDTO> criarAvaliacao(@RequestBody AvaliacaoCreateDTO avaliacaoCreateDTO) {
+        return ResponseEntity.ok(avaliacaoService.insert(avaliacaoCreateDTO));
     }
 
     @PutMapping("/{id}")
