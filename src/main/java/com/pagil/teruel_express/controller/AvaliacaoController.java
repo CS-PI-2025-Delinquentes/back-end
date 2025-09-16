@@ -4,7 +4,6 @@ import com.pagil.teruel_express.model.dto.AvaliacaoCreateDTO;
 import com.pagil.teruel_express.model.dto.AvaliacaoResponseDTO;
 import com.pagil.teruel_express.model.dto.AvaliacaoUpdateDTO;
 import com.pagil.teruel_express.model.entity.Avaliacao;
-import com.pagil.teruel_express.repository.PessoaRepository;
 import com.pagil.teruel_express.service.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,12 +18,14 @@ public class AvaliacaoController {
     @Autowired
     private AvaliacaoService avaliacaoService;
 
-    @Autowired
-    private PessoaRepository pessoaRepository;
-
     @GetMapping
     public ResponseEntity<Page<AvaliacaoResponseDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok(avaliacaoService.findAll(pageable));
+    }
+
+    @GetMapping("/clientes")
+    public ResponseEntity<Page<AvaliacaoResponseDTO>> findAllByClienteId(Pageable pageable) {
+        return ResponseEntity.ok(avaliacaoService.findAllById(pageable));
     }
 
     @GetMapping("/{id}")

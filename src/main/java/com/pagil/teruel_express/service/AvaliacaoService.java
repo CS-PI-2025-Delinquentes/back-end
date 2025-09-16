@@ -28,7 +28,6 @@ public class AvaliacaoService {
     private UserContextService userContextService;
 
     public AvaliacaoResponseDTO insert (AvaliacaoCreateDTO avaliacaoCreateDTO) {
-
         Long pessoaLogada = userContextService.getCurrentUserId();
 
         Pessoa pessoa = pessoaRepository.findById(pessoaLogada)
@@ -59,6 +58,13 @@ public class AvaliacaoService {
 
     public Page<AvaliacaoResponseDTO> findAll(Pageable pageable) {
         Page<Avaliacao> avaliacoes = avaliacaoRepository.findAll(pageable);
+        return avaliacoes.map(avaliacao -> new AvaliacaoResponseDTO(avaliacao));
+    }
+
+    public Page<AvaliacaoResponseDTO> findAllById(Pageable pageable) {
+        Long pessoaLogada = userContextService.getCurrentUserId();
+        Page<Avaliacao> avaliacoes = avaliacaoRepository.findAllByPessoaId(pessoaLogada, pageable);
+
         return avaliacoes.map(avaliacao -> new AvaliacaoResponseDTO(avaliacao));
     }
 
