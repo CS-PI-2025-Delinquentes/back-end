@@ -3,17 +3,17 @@ package com.pagil.teruel_express.service;
 import com.pagil.teruel_express.exception.BusinessLogicException;
 import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.jwt.UserContextService;
-import com.pagil.teruel_express.model.entity.Cidade;
 import com.pagil.teruel_express.model.entity.Pedido;
 import com.pagil.teruel_express.model.entity.StatusPedido;
-import com.pagil.teruel_express.repository.CidadeRepository;
 import com.pagil.teruel_express.repository.PedidoRepository;
+import com.pagil.teruel_express.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PedidoService {
@@ -23,6 +23,9 @@ public class PedidoService {
 
     @Autowired
     private UserContextService userService;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     public Pedido insert(Pedido pedido) {
         return repository.save(pedido);
@@ -42,6 +45,14 @@ public class PedidoService {
 
     public Page<Pedido> findAllByPessoaPaged(Pageable pageable) {
         return repository.findAllByPessoa(userService.getCurrentPessoa(), pageable);
+    }
+
+    public Page<Pedido> findAllByPessoaIdPaged(Long id, Pageable pageable) {
+        try {
+            return repository.findAllByPessoa(pessoaRepository.findById(id).get(), pageable);
+        } catch (NoSuchElementException e) {
+            throw new NotFoundException(String.format("Pessoa com id: %d não encontrada", id));
+        }
     }
 
     public Pedido findById(Long id) {
