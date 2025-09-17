@@ -1,6 +1,7 @@
 package com.pagil.teruel_express.jwt;
 
 import com.pagil.teruel_express.exception.UsernameTypeException;
+import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
@@ -58,12 +59,17 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
     }
 
-    public String getNomeLogado(String username) {
+    public HomePageDto getNomeTipoPessoaLogado(String username) {
         Pessoa pessoa = getPessoaLogada(username);
+        HomePageDto dto = new HomePageDto();
         if(pessoa instanceof PessoaFisica){
-            return ((PessoaFisica) pessoa).getNome();
+            dto.setNome(((PessoaFisica) pessoa).getNome());
+            dto.setTipoConta("Pessoa Física");
+            return dto;
         } else if(pessoa instanceof PessoaJuridica){
-            return ((PessoaJuridica) pessoa).getNomeFantasia();
+            dto.setNome(((PessoaJuridica) pessoa).getNomeFantasia());
+            dto.setTipoConta("Pessoa Jurídica");
+            return dto;
         } else {
             throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");
         }

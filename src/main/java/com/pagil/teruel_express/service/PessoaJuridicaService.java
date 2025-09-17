@@ -7,6 +7,7 @@ import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
 import com.pagil.teruel_express.repository.PessoaJuridicaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.thymeleaf.context.Context;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class PessoaJuridicaService {
 
     @Autowired
@@ -43,7 +45,7 @@ public class PessoaJuridicaService {
         pessoaJuridicaNova.setEmail(pessoaJuridicaCreateDTO.getEmail());
         pessoaJuridicaNova.setTelefone(pessoaJuridicaCreateDTO.getTelefone());
         pessoaJuridicaNova.setCnpj(pessoaJuridicaCreateDTO.getCnpj());
-        pessoaJuridicaNova.setRole(pessoaJuridicaCreateDTO.getRole());
+        pessoaJuridicaNova.setRole(Pessoa.Role.ROLE_CLIENT);
 
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         pessoaJuridicaNova.setSenha(encode.encode(pessoaJuridicaCreateDTO.getSenha()));
