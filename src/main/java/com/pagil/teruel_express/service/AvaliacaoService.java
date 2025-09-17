@@ -68,6 +68,12 @@ public class AvaliacaoService {
         return avaliacoes.map(avaliacao -> new AvaliacaoResponseDTO(avaliacao));
     }
 
+    public Page<AvaliacaoResponseDTO> findLastLanding(Integer nota, Pageable pageable) {
+        Page<Avaliacao> avaliacoes = avaliacaoRepository.findByNotaGreaterThanEqual(nota, pageable);
+
+        return avaliacoes.map(avaliacao ->  new AvaliacaoResponseDTO(avaliacao));
+    }
+
     public Avaliacao update(Long id, AvaliacaoUpdateDTO avaliacaoUpdateDTO) {
         Avaliacao avaliacaoBank = findById(id);
 

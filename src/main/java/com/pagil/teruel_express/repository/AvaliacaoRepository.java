@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
     public Page<Avaliacao> findAllByPessoaId(Long id, Pageable pageable);
+
+    Page<Avaliacao> findByNotaGreaterThanEqual(Integer nota, Pageable pageable);
 }
