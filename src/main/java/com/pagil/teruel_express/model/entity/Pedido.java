@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 @Data
 @ToString
 @Entity
@@ -21,6 +23,9 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
+
+    @Column(nullable = false, name = "data_solicitacao")
+    private LocalDate dataPedido = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "endereco_origem_id")
