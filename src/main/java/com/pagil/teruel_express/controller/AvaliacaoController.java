@@ -35,7 +35,7 @@ public class AvaliacaoController {
     }
 
     @GetMapping("/landing")
-    public ResponseEntity<PageableDTO> findAllLanding(@RequestParam Integer nota, Pageable pageable) {
+    public ResponseEntity<PageableDTO> findAllLanding(@RequestParam(defaultValue = "3") Integer nota, Pageable pageable) {
         return ResponseEntity.ok(
                 PageableMapper.toDto(avaliacaoService.findLastLanding(nota, pageable))
         );
