@@ -1,7 +1,6 @@
 package com.pagil.teruel_express.model.dto.mapper;
 
-import com.pagil.teruel_express.model.dto.EnderecoDTO;
-import com.pagil.teruel_express.model.dto.OrcamentoDTO;
+import com.pagil.teruel_express.exception.UsernameTypeException;
 import com.pagil.teruel_express.model.dto.PedidoAdminDTO;
 import com.pagil.teruel_express.model.dto.PedidoClienteDTO;
 import com.pagil.teruel_express.model.entity.*;
@@ -41,12 +40,13 @@ public class PedidoMapper {
         String origem = pedido.getOrigem().getCidade().getNome();
         String destino = pedido.getDestino().getCidade().getNome();
         Pessoa pessoa = pedido.getPessoa();
+        String email = pessoa.getEmail();
         String nomeCliente;
         if(pessoa instanceof PessoaFisica){
             nomeCliente = ((PessoaFisica) pessoa).getNome();
         } else if(pessoa instanceof PessoaJuridica) {
             nomeCliente = ((PessoaJuridica) pessoa).getNomeFantasia();
-        } else nomeCliente = "Erro, não era instância de porra nenhuma";
+        } else throw new UsernameTypeException("Pessoa não identificada");
 
         PropertyMap<Pedido, PedidoAdminDTO> props = new PropertyMap<>() {
             @Override
@@ -54,6 +54,7 @@ public class PedidoMapper {
                 map().setOrigem(origem);
                 map().setDestino(destino);
                 map().setCliente(nomeCliente);
+                map().setEmail(email);
             }
         };
         ModelMapper mapper = new ModelMapper();
