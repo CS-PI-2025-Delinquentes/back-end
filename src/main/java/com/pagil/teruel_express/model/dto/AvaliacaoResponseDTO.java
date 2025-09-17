@@ -9,7 +9,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class AvaliacaoGetDTO {
+public class AvaliacaoResponseDTO {
 
     private Long id;
     private Integer nota;
@@ -17,7 +17,7 @@ public class AvaliacaoGetDTO {
     private String nomeAvaliador;
     private LocalDate dataAvaliacao;
 
-    public AvaliacaoGetDTO(Avaliacao avaliacao) {
+    public AvaliacaoResponseDTO(Avaliacao avaliacao) {
         this.id = avaliacao.getId();
         this.nota = avaliacao.getNota();
         this.descricao = avaliacao.getDescricao();
@@ -25,7 +25,7 @@ public class AvaliacaoGetDTO {
         this.dataAvaliacao = avaliacao.getDataAvaliacao();
     }
 
-    public AvaliacaoGetDTO() {}
+    public AvaliacaoResponseDTO() {}
 
     public String getNomeAvaliador(Pessoa pessoa) {
         if (pessoa instanceof PessoaFisica) {
