@@ -12,6 +12,7 @@ public class PessoaJuridica extends Pessoa {
 
     @Column(nullable = false, name = "nome_fantasia")
     private String nomeFantasia;
+
     @Column(unique=true, nullable=false, length=14)
     private String cnpj;
 

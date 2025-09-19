@@ -11,6 +11,7 @@ import lombok.Data;
 public class PessoaFisica extends Pessoa {
     @Column(nullable = false, name = "nome")
     private String nome;
+
     @Column(unique=true, nullable=false, length=11, name = "cpf")
     private String cpf;
 

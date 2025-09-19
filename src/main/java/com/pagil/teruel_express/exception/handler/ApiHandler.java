@@ -1,9 +1,6 @@
 package com.pagil.teruel_express.exception.handler;
 
-import com.pagil.teruel_express.exception.CityStateUniqueViolationException;
-import com.pagil.teruel_express.exception.EmailCnpjUniqueViolationException;
-import com.pagil.teruel_express.exception.EmailCpfUniqueViolationException;
-import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +72,22 @@ public class ApiHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.FORBIDDEN, ex.getMessage()));
+    }
+
+    @ExceptionHandler(RouteNotAvailableException.class)
+    public ResponseEntity<ErrorMessage> routeNotAvailableException(RouteNotAvailableException ex, HttpServletRequest request) {
+        log.error("Api Error - ", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(BusinessLogicException.class)
+    public ResponseEntity<ErrorMessage> businessLogicException(BusinessLogicException ex, HttpServletRequest request) {
+        log.error("Logic Error - ", ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
