@@ -45,4 +45,13 @@ public class CodigoService {
         context.setVariable("codigo", codigo);
         emailService.emailTemplate(email, "Codigo recuperação senha", context, "cadastroTeruelExpress");
     }
+
+    public boolean validar(String email, String codigoRecebido) {
+        Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("Email não econtrado")
+        );
+        Codigo codigo = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
+                () -> new NotFoundException("Codigo não econtrado para pessoa")
+        );
+    }
 }

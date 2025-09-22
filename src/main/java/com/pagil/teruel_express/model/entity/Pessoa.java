@@ -38,4 +38,12 @@ public abstract class Pessoa {
         this.senha = senha;
         this.role = role;
     }
+
+    public String getSenha(){
+        return senha;
+    }
+
+    public void setSenha(String senha){
+        this.senha = senha;
+    }
 }
