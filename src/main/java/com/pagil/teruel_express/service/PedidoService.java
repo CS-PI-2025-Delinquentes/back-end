@@ -62,7 +62,9 @@ public class PedidoService {
     }
 
     public void delete(Long id) {
-        repository.delete(findById(id));
+        Pedido pedido = findById(id);
+        if(pedido.getStatus() != StatusPedido.PENDENTE) throw new BusinessLogicException("Não é permitido cancelar um pedido não pendente");
+        repository.delete(pedido);
     }
 
     public Pedido avaliarPedido(Long id, boolean aceito) {
