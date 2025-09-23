@@ -30,4 +30,14 @@ public class SolicitacoesController {
                         PedidoMapper.toPageClientDto(
                                 pedidoService.findAllByPessoaIdPaged(id, pageable))));
     }
+
+    @GetMapping("/admin")
+    public ResponseEntity<?> findAllAdmin(Pageable pageable) {
+        return ResponseEntity.ok(
+                PageableMapper.toDto(
+                        PedidoMapper.toPageAdminDto(
+                                pedidoService.findAllPaged(pageable))));
+    }
+
+
 }
