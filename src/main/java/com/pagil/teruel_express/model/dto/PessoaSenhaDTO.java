@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class PessoaSenhaDTO {
     private String senha;
+
 }

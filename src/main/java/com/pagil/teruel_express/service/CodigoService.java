@@ -53,5 +53,10 @@ public class CodigoService {
         Codigo codigo = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
                 () -> new NotFoundException("Codigo não econtrado para pessoa")
         );
+        if(!codigo.getCodigo().equals(codigoRecebido)){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

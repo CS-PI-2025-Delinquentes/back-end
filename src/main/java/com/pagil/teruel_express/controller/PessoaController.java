@@ -14,8 +14,9 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PutMapping("/atualizar-senha/{email}")
-    public ResponseEntity<String> atualizarSenha(@PathVariable String email, @RequestBody PessoaSenhaDTO dto) {
-        return ResponseEntity.ok(pessoaService.atualizarSenha(email, dto));
+    public ResponseEntity<Void> atualizarSenha(@PathVariable String email, @RequestBody PessoaSenhaDTO pessoaSenhaDTO) {
+        pessoaService.atualizarSenha(email, pessoaSenhaDTO);
+        return ResponseEntity.noContent().build();
     }
 }
 
