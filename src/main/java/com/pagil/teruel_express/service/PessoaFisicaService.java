@@ -42,8 +42,6 @@ public class PessoaFisicaService {
         pessoaFisicaNova.setEmail(pessoaFisicaCreateDTO.getEmail());
         pessoaFisicaNova.setCpf(pessoaFisicaCreateDTO.getCpf());
         pessoaFisicaNova.setTelefone(pessoaFisicaCreateDTO.getTelefone());
-        pessoaFisicaNova.setRole(Pessoa.Role.ROLE_CLIENT);
-
 
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         pessoaFisicaNova.setSenha(encode.encode(pessoaFisicaCreateDTO.getSenha()));

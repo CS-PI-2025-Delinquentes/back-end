@@ -23,7 +23,7 @@ public abstract class Pessoa {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "role")
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
 
     public enum Role {
         ROLE_CLIENT, ROLE_ADMIN, ROLE_DEV
