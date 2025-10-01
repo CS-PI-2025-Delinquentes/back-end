@@ -1,0 +1,24 @@
+name: Java CI com Maven e Testes
+
+on:
+  push:
+    branches: [ "main", "feature/*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Java 21 (ou a versão que você usa)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Executar Build, Testes Unitários e Integrados
+        run: mvn -B clean verify
