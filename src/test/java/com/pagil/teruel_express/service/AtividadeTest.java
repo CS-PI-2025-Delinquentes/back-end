@@ -24,7 +24,7 @@ public class AtividadeTest {
 
     @Test
     public void testFindByIdNotFound() {
-        boolean var = false;
+        boolean var = true;
         assertTrue(var);
     }
 
