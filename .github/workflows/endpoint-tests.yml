@@ -2,6 +2,7 @@ name: Endpoint Tests Workflow
 on:
   pull_request:
     branches: [ dev, main ]
+  push:
 
 jobs:
   build:
