@@ -42,8 +42,6 @@ public class PessoaFisicaService {
         pessoaFisicaNova.setEmail(pessoaFisicaCreateDTO.getEmail());
         pessoaFisicaNova.setCpf(pessoaFisicaCreateDTO.getCpf());
         pessoaFisicaNova.setTelefone(pessoaFisicaCreateDTO.getTelefone());
-        pessoaFisicaNova.setRole(pessoaFisicaCreateDTO.getRole());
-
 
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         pessoaFisicaNova.setSenha(encode.encode(pessoaFisicaCreateDTO.getSenha()));
@@ -72,10 +70,9 @@ public class PessoaFisicaService {
     }
 
     public PessoaFisica findById(Long id) {
-        PessoaFisica pessoaFisicaBank = pessoaFisicaRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Pessoa fisica com id %d não encontrado", id))
+        return pessoaFisicaRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Pessoa física com id %d não encontrado", id))
         );
-        return pessoaFisicaBank;
     }
 
     public Page<PessoaFisica> findAll(Pageable pageable) {

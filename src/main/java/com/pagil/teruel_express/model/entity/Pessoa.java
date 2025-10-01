@@ -11,15 +11,19 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false, name = "email")
     private String email;
+
     @Column(nullable = false, name = "telefone")
     private String telefone;
+
     @Column(nullable = false, name = "senha")
     private String senha;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "role")
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
 
     public enum Role {
         ROLE_CLIENT, ROLE_ADMIN, ROLE_DEV

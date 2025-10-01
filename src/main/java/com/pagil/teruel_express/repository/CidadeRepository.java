@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface CidadeRepository extends JpaRepository<Cidade,Long> {
 
     public Optional<Cidade> findByNomeAndEstado(String nome, Estado estado);
+    Optional<Cidade> findByNomeIgnoreCase(String nome);
+    Optional<Cidade> findByNomeIgnoreCaseAndEstadoNomeIgnoreCase(String cidade, String estado);
 }
