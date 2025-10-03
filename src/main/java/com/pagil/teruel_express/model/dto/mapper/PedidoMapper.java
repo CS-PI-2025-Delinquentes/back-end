@@ -40,7 +40,6 @@ public class PedidoMapper {
         String origem = pedido.getOrigem().getCidade().getNome();
         String destino = pedido.getDestino().getCidade().getNome();
         Pessoa pessoa = pedido.getPessoa();
-        String email = pessoa.getEmail();
         String nomeCliente;
         if(pessoa instanceof PessoaFisica){
             nomeCliente = ((PessoaFisica) pessoa).getNome();
@@ -54,7 +53,6 @@ public class PedidoMapper {
                 map().setOrigem(origem);
                 map().setDestino(destino);
                 map().setCliente(nomeCliente);
-                map().setEmail(email);
             }
         };
         ModelMapper mapper = new ModelMapper();
