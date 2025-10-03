@@ -41,7 +41,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa-fisica").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa-juridica").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/codigo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/codigo/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
