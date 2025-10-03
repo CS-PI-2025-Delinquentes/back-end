@@ -43,7 +43,7 @@ public class CodigoService {
     public void enviarCodigo(String codigo, String email) {
         Context context = new Context();
         context.setVariable("codigo", codigo);
-        emailService.emailTemplate(email, "Codigo recuperação senha", context, "cadastroTeruelExpress");
+        emailService.emailTemplate(email, "Codigo recuperação senha", context, "senhaTeruelExpress");
     }
 
     public boolean validar(String email, String codigoRecebido) {
