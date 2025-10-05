@@ -27,23 +27,33 @@ public class CidadeService {
     @Autowired
     private EstadoRepository estadoRepository;
 
+
     public Cidade insert(CidadeDTO cidadeDTO) {
         Estado estadoBank = estadoRepository.findById(cidadeDTO.getEstadoId()).orElseThrow(
                 () -> new NotFoundException("Estado não encontrado")
         );
 
         Optional<Cidade> cidadeBank = cidadeRepository.findByNomeAndEstado(cidadeDTO.getNome(), estadoBank);
-        if(cidadeBank.isPresent()) {
+
+        if (cidadeBank.isPresent()) {
+            Cidade cidadeExistente = cidadeBank.get();
+
+            if ("EXCLUIDO".equalsIgnoreCase(String.valueOf(cidadeExistente.getStatus()))) {
+                cidadeExistente.setStatus(StatusRota.valueOf("ATIVO"));
+                return cidadeRepository.save(cidadeExistente);
+            }
+
             throw new CityStateUniqueViolationException("Cidade já cadastrada nesse Estado");
         }
 
         Cidade cidade = new Cidade();
         cidade.setNome(cidadeDTO.getNome());
-        cidade.setStatus(cidadeDTO.getStatus());
+        cidade.setStatus(StatusRota.valueOf("ATIVO"));
         cidade.setEstado(estadoBank);
 
         return cidadeRepository.save(cidade);
     }
+
 
     public Cidade update(Long id, CidadeDTO cidadeDTO) {
         Cidade cidadeBank = findById(id);
@@ -106,7 +116,26 @@ public class CidadeService {
         else return rota;
     }
 
+    public void toggleActive(Long id) {
+        Cidade cidade = findById(id);
+
+        if (cidade.getStatus() == StatusRota.ATIVO) {
+            cidade.setStatus(StatusRota.INATIVO);
+        } else {
+            cidade.setStatus(StatusRota.ATIVO);
+        }
+
+        cidadeRepository.save(cidade);
+    }
+
+    public void softDelete(Long id) {
+        Cidade cidade = findById(id);
+        cidade.setStatus(StatusRota.valueOf("EXCLUIDO"));
+
+        cidadeRepository.save(cidade);
+    }
+
     public Page<Cidade> findAll(Pageable pageable) {
-        return cidadeRepository.findAll(pageable);
+        return cidadeRepository.findAllByStatusNot(StatusRota.valueOf("EXCLUIDO"), pageable);
     }
 }
