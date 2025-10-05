@@ -22,12 +22,8 @@ public abstract class Pessoa {
     private String senha;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "role")
+    @Column(nullable = false, columnDefinition = "role")
     private Role role = Role.ROLE_CLIENT;
-
-    public enum Role {
-        ROLE_CLIENT, ROLE_ADMIN, ROLE_DEV
-    }
 
     public Pessoa() {}
 
@@ -37,5 +33,13 @@ public abstract class Pessoa {
         this.telefone = telefone;
         this.senha = senha;
         this.role = role;
+    }
+
+    public String getSenha(){
+        return senha;
+    }
+
+    public void setSenha(String senha){
+        this.senha = senha;
     }
 }
