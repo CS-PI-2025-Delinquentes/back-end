@@ -31,12 +31,12 @@ public class Codigo {
         this.codigo = codigo;
         this.pessoa = pessoa;
         this.createdAt = LocalDateTime.now();
-        this.expiresAt = LocalDateTime.now().plusMinutes(10);
+        this.expiresAt = LocalDateTime.now().plusMinutes(15);
     }
 
     public Codigo() {
         this.createdAt = LocalDateTime.now();
-        this.expiresAt = LocalDateTime.now().plusMinutes(10);
+        this.expiresAt = LocalDateTime.now().plusMinutes(15);
     }
 
     public boolean isExpired() {

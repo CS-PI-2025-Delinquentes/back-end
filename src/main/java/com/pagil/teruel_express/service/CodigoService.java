@@ -60,7 +60,7 @@ public class CodigoService {
         codigo.setPessoa(pessoaBank);
         codigo.setCodigo(NumberGenerator.generateNumberConfirmation());
         codigo.setCreatedAt(LocalDateTime.now());
-        codigo.setExpiresAt(LocalDateTime.now().plusMinutes(10));
+        codigo.setExpiresAt(LocalDateTime.now().plusMinutes(15));
 
         String nome = getNomePessoa(pessoaBank);
         enviarCodigo(codigo.getCodigo(), email, nome);

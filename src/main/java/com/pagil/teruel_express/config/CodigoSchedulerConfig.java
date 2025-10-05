@@ -13,7 +13,7 @@ public class CodigoSchedulerConfig {
     @Autowired
     private CodigoService codigoService;
 
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 */15 * * * *")
     public void limparCodigosExpirados() {
         codigoService.limparCodigosExpirados();
     }
