@@ -6,6 +6,7 @@ import com.pagil.teruel_express.model.dto.PessoaFisicaCreateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.dto.PessoaFisicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
+import com.pagil.teruel_express.model.entity.Role;
 import com.pagil.teruel_express.repository.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,7 +86,7 @@ public class PessoaFisicaService {
         );
     }
 
-    public Pessoa.Role buscarRolePorUsername(String cpf) {
+    public Role buscarRolePorUsername(String cpf) {
         return pessoaFisicaRepository.findRoleByCpf(cpf);
     }
 }
