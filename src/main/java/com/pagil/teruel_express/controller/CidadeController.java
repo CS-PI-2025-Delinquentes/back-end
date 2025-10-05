@@ -3,9 +3,11 @@ package com.pagil.teruel_express.controller;
 import com.pagil.teruel_express.model.dto.CidadeDTO;
 import com.pagil.teruel_express.model.entity.Cidade;
 import com.pagil.teruel_express.service.CidadeService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,13 @@ public class CidadeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        cidadeService.delete(id);
+        cidadeService.softDelete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping({"/{id}"})
+    public ResponseEntity<Void> toggleActive(@PathVariable Long id) {
+        cidadeService.toggleActive(id);
         return ResponseEntity.noContent().build();
     }
 }
