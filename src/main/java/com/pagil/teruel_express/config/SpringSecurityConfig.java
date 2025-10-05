@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/pessoa-fisica").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa-juridica").permitAll()
                         .requestMatchers(HttpMethod.POST, "/codigo/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/pessoa").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/codigo/atualizar").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(
