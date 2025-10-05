@@ -135,7 +135,11 @@ public class CidadeService {
         cidadeRepository.save(cidade);
     }
 
-    public Page<Cidade> findAll(Pageable pageable) {
+    public Page<Cidade> findAllNotExcluded(Pageable pageable) {
         return cidadeRepository.findAllByStatusNot(StatusRota.valueOf("EXCLUIDO"), pageable);
+    }
+
+    public Page<Cidade> findAll(Pageable pageable) {
+        return cidadeRepository.findAll(pageable);
     }
 }

@@ -20,7 +20,7 @@ public class CidadeController {
 
     @GetMapping
     public ResponseEntity<Page<Cidade>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(cidadeService.findAll(pageable));
+        return ResponseEntity.ok(cidadeService.findAllNotExcluded(pageable));
     }
 
     @GetMapping("/{id}")
