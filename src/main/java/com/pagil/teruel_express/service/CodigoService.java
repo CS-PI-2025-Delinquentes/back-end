@@ -39,7 +39,7 @@ public class CodigoService {
 
     public Codigo insert(String email) {
         Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Email não econtrado")
+                () -> new NotFoundException("Email não encontrado")
         );
 
         codigoRepository.findByPessoa(pessoaBank).ifPresent(codigoRepository::delete);
@@ -63,25 +63,21 @@ public class CodigoService {
 
     public boolean validar(String email, String codigoRecebido) {
         Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Email não econtrado")
+                () -> new NotFoundException("Email não encontrado")
         );
         Codigo codigo = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
-                () -> new NotFoundException("Codigo não econtrado para pessoa")
+                () -> new NotFoundException("Codigo não encontrado para pessoa")
         );
-        if (codigo.getCodigo().equals(codigoRecebido)) {
-            return true;
-        } else {
-            return false;
-        }
+        return codigo.getCodigo().equals(codigoRecebido);
     }
 
     public boolean atualizarSenha(String email, String codigo, String novaSenha) {
         Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Email não econtrado")
+                () -> new NotFoundException("Email não encontrado")
         );
 
         Codigo codigoBank = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
-                () -> new NotFoundException("Codigo não econtrado para pessoa")
+                () -> new NotFoundException("Codigo não encontrado para pessoa")
         );
 
         if (!codigoBank.getCodigo().equals(codigo)) {
