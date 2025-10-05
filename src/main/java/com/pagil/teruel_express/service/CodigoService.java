@@ -1,6 +1,7 @@
 package com.pagil.teruel_express.service;
 
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.model.dto.AtualizarSenhaRequestDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
@@ -14,6 +15,7 @@ import com.pagil.teruel_express.repository.CodigoRepository;
 import com.pagil.teruel_express.utils.NumberGenerator;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -37,16 +39,28 @@ public class CodigoService {
         return "Usuário";
     }
 
+    public void limparCodigosExpirados() {
+        codigoRepository.deleteAll(
+            codigoRepository.findAll().stream()
+                .filter(Codigo::isExpired)
+                .toList()
+        );
+    }
+
     public Codigo insert(String email) {
         Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
                 () -> new NotFoundException("Email não encontrado")
         );
+
+        limparCodigosExpirados();
 
         codigoRepository.findByPessoa(pessoaBank).ifPresent(codigoRepository::delete);
 
         Codigo codigo = new Codigo();
         codigo.setPessoa(pessoaBank);
         codigo.setCodigo(NumberGenerator.generateNumberConfirmation());
+        codigo.setCreatedAt(LocalDateTime.now());
+        codigo.setExpiresAt(LocalDateTime.now().plusMinutes(10));
 
         String nome = getNomePessoa(pessoaBank);
         enviarCodigo(codigo.getCodigo(), email, nome);
@@ -63,33 +77,46 @@ public class CodigoService {
 
     public boolean validar(String email, String codigoRecebido) {
         Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Email não encontrado")
+                () -> new NotFoundException("Email invalido!")
         );
+
         Codigo codigo = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
-                () -> new NotFoundException("Codigo não encontrado para pessoa")
+                () -> new NotFoundException("Codigo invalido!")
         );
+
+        espiracaoCod(codigo);
+
         return codigo.getCodigo().equals(codigoRecebido);
     }
 
-    public boolean atualizarSenha(String email, String codigo, String novaSenha) {
-        Pessoa pessoaBank = pessoaRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("Email não encontrado")
+    public boolean atualizarSenha(AtualizarSenhaRequestDTO atualizarSenhaRequestDTO) {
+        Pessoa pessoaBank = pessoaRepository.findByEmail(atualizarSenhaRequestDTO.getEmail()).orElseThrow(
+                () -> new NotFoundException("Email invalido!")
         );
 
         Codigo codigoBank = codigoRepository.findByPessoa(pessoaBank).orElseThrow(
-                () -> new NotFoundException("Codigo não encontrado para pessoa")
+                () -> new NotFoundException("Codigo invalido!")
         );
 
-        if (!codigoBank.getCodigo().equals(codigo)) {
+        espiracaoCod(codigoBank);
+
+        if (!codigoBank.getCodigo().equals(atualizarSenhaRequestDTO.getCodigo())) {
             throw new NotFoundException("Código inválido.");
         }
 
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        pessoaBank.setSenha(encode.encode(novaSenha));
+        pessoaBank.setSenha(encode.encode(atualizarSenhaRequestDTO.getNovaSenha()));
         pessoaRepository.save(pessoaBank);
         deleteByPessoa(pessoaBank);
 
         return true;
+    }
+
+    private void espiracaoCod(Codigo codigoBank) {
+        if (codigoBank.isExpired()) {
+            codigoRepository.delete(codigoBank);
+            throw new NotFoundException("Código expirado");
+        }
     }
 
     public void deleteByPessoa(Pessoa pessoa) {

@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.controller;
 
+import com.pagil.teruel_express.model.dto.AtualizarSenhaRequestDTO;
 import com.pagil.teruel_express.model.entity.Codigo;
 import com.pagil.teruel_express.service.CodigoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class CodigoController {
     }
 
     @PatchMapping("/atualizar")
-    public ResponseEntity<Void> atualizarSenha(@RequestParam String email, String codigo, String novaSenha) {
-        codigoService.atualizarSenha(email, codigo, novaSenha);
+    public ResponseEntity<Void> atualizarSenha(@RequestBody AtualizarSenhaRequestDTO atualizarSenhaRequestDTO) {
+        codigoService.atualizarSenha(atualizarSenhaRequestDTO);
         return ResponseEntity.noContent().build();
     }
 }
