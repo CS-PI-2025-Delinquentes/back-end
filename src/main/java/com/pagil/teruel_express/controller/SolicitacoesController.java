@@ -1,11 +1,10 @@
 package com.pagil.teruel_express.controller;
 
 import com.pagil.teruel_express.model.dto.OrcamentoDTO;
-import com.pagil.teruel_express.model.dto.OrcamentoDetalhesDTO;
 import com.pagil.teruel_express.model.dto.mapper.PageableMapper;
 import com.pagil.teruel_express.model.dto.mapper.PedidoMapper;
-import com.pagil.teruel_express.model.entity.Pedido;
 import com.pagil.teruel_express.service.PedidoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -62,11 +61,8 @@ public class SolicitacoesController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody OrcamentoDTO orcamento) {
-
-        return null;
+    public ResponseEntity<?> create(@RequestBody @Valid OrcamentoDTO orcamento) {
+        pedidoService.insert(orcamento);
+        return ResponseEntity.ok().build();
     }
-
-
-
 }
