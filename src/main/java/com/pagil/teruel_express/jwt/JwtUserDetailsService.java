@@ -5,6 +5,7 @@ import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
+import com.pagil.teruel_express.model.entity.Role;
 import com.pagil.teruel_express.service.PessoaFisicaService;
 import com.pagil.teruel_express.service.PessoaJuridicaService;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public JwtToken getTokenAuthenticated(String username) {
         if (username.length() == 11) {
-            Pessoa.Role role = fisicaService.buscarRolePorUsername(username);
+            Role role = fisicaService.buscarRolePorUsername(username);
             return jwtUtils.createToken(username, role.name().substring("ROLE_".length()));
         } else if (username.length() == 14) {
-            Pessoa.Role role = juridicaService.buscarRolePorUsername(username);
+            Role role = juridicaService.buscarRolePorUsername(username);
             return jwtUtils.createToken(username, role.name().substring("ROLE_".length()));
         }
         else {

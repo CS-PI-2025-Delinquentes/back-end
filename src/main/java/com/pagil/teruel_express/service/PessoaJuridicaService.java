@@ -6,6 +6,7 @@ import com.pagil.teruel_express.model.dto.PessoaJuridicaCreateDTO;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
+import com.pagil.teruel_express.model.entity.Role;
 import com.pagil.teruel_express.repository.PessoaJuridicaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class PessoaJuridicaService {
         pessoaJuridicaNova.setEmail(pessoaJuridicaCreateDTO.getEmail());
         pessoaJuridicaNova.setTelefone(pessoaJuridicaCreateDTO.getTelefone());
         pessoaJuridicaNova.setCnpj(pessoaJuridicaCreateDTO.getCnpj());
-        pessoaJuridicaNova.setRole(Pessoa.Role.ROLE_CLIENT);
+        pessoaJuridicaNova.setRole(Role.ROLE_CLIENT);
 
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         pessoaJuridicaNova.setSenha(encode.encode(pessoaJuridicaCreateDTO.getSenha()));
@@ -90,7 +91,7 @@ public class PessoaJuridicaService {
         );
     }
 
-    public Pessoa.Role buscarRolePorUsername(String cnpj) {
+    public Role buscarRolePorUsername(String cnpj) {
         return pessoaJuridicaRepository.findRoleByCnpj(cnpj);
     }
 }

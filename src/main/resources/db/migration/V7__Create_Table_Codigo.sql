@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS "codigo" (
+    id BIGSERIAL PRIMARY KEY,
+    codigo VARCHAR(6) NOT NULL,
+    pessoa_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (pessoa_id) REFERENCES pessoa(id) ON DELETE CASCADE
+);
