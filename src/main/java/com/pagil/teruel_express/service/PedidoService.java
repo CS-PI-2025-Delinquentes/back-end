@@ -3,8 +3,10 @@ package com.pagil.teruel_express.service;
 import com.pagil.teruel_express.exception.BusinessLogicException;
 import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.jwt.UserContextService;
+import com.pagil.teruel_express.model.entity.Pacote;
 import com.pagil.teruel_express.model.entity.Pedido;
 import com.pagil.teruel_express.model.entity.StatusPedido;
+import com.pagil.teruel_express.repository.PacoteRepository;
 import com.pagil.teruel_express.repository.PedidoRepository;
 import com.pagil.teruel_express.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -26,6 +31,9 @@ public class PedidoService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private PacoteRepository pacoteRepository;
 
     public Pedido insert(Pedido pedido) {
         return repository.save(pedido);
@@ -61,6 +69,11 @@ public class PedidoService {
         );
     }
 
+    public Page<Pedido> findAllByStatusPedido(StatusPedido statusPedido, Pageable pageable) {
+        ArrayList<StatusPedido> col = new ArrayList<>() ;
+        return repository.findByStatusIn(col,pageable);
+    }
+
     public void delete(Long id) {
         Pedido pedido = findById(id);
         if(pedido.getStatus() != StatusPedido.PENDENTE) throw new BusinessLogicException("Não é permitido cancelar um pedido não pendente");
@@ -73,6 +86,10 @@ public class PedidoService {
         if(aceito) pedido.setStatus(StatusPedido.ACEITO);
         else pedido.setStatus(StatusPedido.RECUSADO);
         return repository.save(pedido);
+    }
+
+    public List<Pacote> findPacotesByPedidoId(Long id) {
+        return pacoteRepository.findAllByPedidoId(id);
     }
 
 }

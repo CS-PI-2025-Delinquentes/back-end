@@ -37,5 +37,4 @@ public class Pacote {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
-
 }
