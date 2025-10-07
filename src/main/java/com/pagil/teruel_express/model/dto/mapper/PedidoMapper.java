@@ -1,8 +1,7 @@
 package com.pagil.teruel_express.model.dto.mapper;
 
 import com.pagil.teruel_express.exception.UsernameTypeException;
-import com.pagil.teruel_express.model.dto.PedidoAdminDTO;
-import com.pagil.teruel_express.model.dto.PedidoClienteDTO;
+import com.pagil.teruel_express.model.dto.*;
 import com.pagil.teruel_express.model.entity.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -40,7 +39,6 @@ public class PedidoMapper {
         String origem = pedido.getOrigem().getCidade().getNome();
         String destino = pedido.getDestino().getCidade().getNome();
         Pessoa pessoa = pedido.getPessoa();
-        String email = pessoa.getEmail();
         String nomeCliente;
         if(pessoa instanceof PessoaFisica){
             nomeCliente = ((PessoaFisica) pessoa).getNome();
@@ -54,12 +52,35 @@ public class PedidoMapper {
                 map().setOrigem(origem);
                 map().setDestino(destino);
                 map().setCliente(nomeCliente);
-                map().setEmail(email);
             }
         };
         ModelMapper mapper = new ModelMapper();
         mapper.addMappings(props);
         return mapper.map(pedido, PedidoAdminDTO.class);
+    }
+
+    public static OrcamentoDetalhesDTO toDetalhes(Pedido pedido, List<Pacote> pacotes) {
+        EnderecoDTO origemDto = EnderecoMapper.toDto(pedido.getOrigem());
+        EnderecoDTO destinoDto = EnderecoMapper.toDto(pedido.getDestino());
+        Pessoa pessoa = pedido.getPessoa();
+        String nomeCliente;
+        if(pessoa instanceof PessoaFisica){
+            nomeCliente = ((PessoaFisica) pessoa).getNome();
+        } else if(pessoa instanceof PessoaJuridica) {
+            nomeCliente = ((PessoaJuridica) pessoa).getNomeFantasia();
+        } else throw new UsernameTypeException("Pessoa não identificada");
+        PropertyMap<Pedido, OrcamentoDetalhesDTO> props = new PropertyMap<>() {
+            @Override
+            protected void configure() {
+                map().setOrigem(origemDto);
+                map().setDestino(destinoDto);
+                map().setCliente(nomeCliente);
+                map().setPacotes(toListPacoteDto(pacotes));
+            }
+        };
+        ModelMapper mapper = new ModelMapper();
+        mapper.addMappings(props);
+        return mapper.map(pedido, OrcamentoDetalhesDTO.class);
     }
 
     public static List<PedidoAdminDTO> toListAdminDto(List<Pedido> pedidos){
@@ -70,4 +91,34 @@ public class PedidoMapper {
         return pedidos.map(pedido -> toAdminDto(pedido));
     }
 
+    public static Pacote toPacote(PacoteRequestDTO dto, Pedido pedido){
+        Pacote pacote = new ModelMapper().map(dto, Pacote.class);
+        pacote.setPedido(pedido);
+        return pacote;
+    }
+
+    public static List<Pacote> toListPacote(List<PacoteRequestDTO> dtos, Pedido pedido){
+        return dtos.stream().map(dto -> toPacote(dto, pedido)).collect(Collectors.toList());
+    }
+
+    public static PacoteResponseDTO toPacoteDto(Pacote pacote){
+        return new ModelMapper().map(pacote, PacoteResponseDTO.class);
+    }
+
+    public static List<PacoteResponseDTO> toListPacoteDto(List<Pacote> pacotes){
+        return pacotes.stream().map(pacote -> toPacoteDto(pacote)).collect(Collectors.toList());
+    }
+
+    public static Pedido toPedido(OrcamentoDTO dto, Endereco origem, Endereco destino) {
+        PropertyMap<OrcamentoDTO, Pedido> props = new PropertyMap<>() {
+            @Override
+            protected void configure() {
+                map().setOrigem(origem);
+                map().setDestino(destino);
+            }
+        };
+        ModelMapper mapper = new ModelMapper();
+        mapper.addMappings(props);
+        return mapper.map(dto, Pedido.class);
+    }
 }

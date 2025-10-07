@@ -14,6 +14,5 @@ public class PedidoAdminDTO {
     private String origem;
     private String destino;
     private String cliente;
-    private String email;
 
 }

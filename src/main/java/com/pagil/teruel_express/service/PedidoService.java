@@ -3,18 +3,27 @@ package com.pagil.teruel_express.service;
 import com.pagil.teruel_express.exception.BusinessLogicException;
 import com.pagil.teruel_express.exception.NotFoundException;
 import com.pagil.teruel_express.jwt.UserContextService;
+import com.pagil.teruel_express.model.dto.OrcamentoDTO;
+import com.pagil.teruel_express.model.dto.mapper.PedidoMapper;
+import com.pagil.teruel_express.model.entity.Endereco;
+import com.pagil.teruel_express.model.entity.Pacote;
 import com.pagil.teruel_express.model.entity.Pedido;
 import com.pagil.teruel_express.model.entity.StatusPedido;
+import com.pagil.teruel_express.repository.PacoteRepository;
 import com.pagil.teruel_express.repository.PedidoRepository;
 import com.pagil.teruel_express.repository.PessoaRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 public class PedidoService {
 
@@ -27,8 +36,20 @@ public class PedidoService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public Pedido insert(Pedido pedido) {
-        return repository.save(pedido);
+    @Autowired
+    private PacoteRepository pacoteRepository;
+
+    @Autowired
+    private EnderecoService enderecoService;
+
+    @Transactional
+    public void insert(OrcamentoDTO dto) {
+        Endereco origem = enderecoService.insert(dto.getOrigem());
+        Endereco destino = enderecoService.insert(dto.getDestino());
+        Pedido pedido = PedidoMapper.toPedido(dto, origem, destino);
+        pedido.setPessoa(userService.getCurrentPessoa());
+        Pedido pedidoBank = repository.save(pedido);
+        pacoteRepository.saveAll(PedidoMapper.toListPacote(dto.getPacotes(), pedidoBank));
     }
 
     public List<Pedido> findAllByPessoa(){
@@ -61,6 +82,11 @@ public class PedidoService {
         );
     }
 
+    public Page<Pedido> findAllByStatusPedido(StatusPedido statusPedido, Pageable pageable) {
+        ArrayList<StatusPedido> col = new ArrayList<>() ;
+        return repository.findByStatusIn(col,pageable);
+    }
+
     public void delete(Long id) {
         Pedido pedido = findById(id);
         if(pedido.getStatus() != StatusPedido.PENDENTE) throw new BusinessLogicException("Não é permitido cancelar um pedido não pendente");
@@ -73,6 +99,10 @@ public class PedidoService {
         if(aceito) pedido.setStatus(StatusPedido.ACEITO);
         else pedido.setStatus(StatusPedido.RECUSADO);
         return repository.save(pedido);
+    }
+
+    public List<Pacote> findPacotesByPedidoId(Long id) {
+        return pacoteRepository.findAllByPedidoId(id);
     }
 
 }
