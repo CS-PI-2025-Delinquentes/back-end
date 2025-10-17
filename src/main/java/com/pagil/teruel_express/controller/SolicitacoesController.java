@@ -43,7 +43,8 @@ public class SolicitacoesController {
 
     @PatchMapping("/admin/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestParam boolean aceito) {
-        return ResponseEntity.ok(pedidoService.avaliarPedido(id, aceito));
+        pedidoService.avaliarPedido(id, aceito);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/clientes/{id}")
