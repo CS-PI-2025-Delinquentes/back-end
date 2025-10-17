@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class CidadeController {
     private CidadeService cidadeService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEV')")
     public ResponseEntity<Page<Cidade>> findAll(Pageable pageable) {
         return ResponseEntity.ok(cidadeService.findAllNotExcluded(pageable));
     }
@@ -29,6 +31,7 @@ public class CidadeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEV')")
     public ResponseEntity<Cidade> save(@RequestBody CidadeDTO cidadeDTO) {
         return ResponseEntity.ok(cidadeService.insert(cidadeDTO));
     }
@@ -39,12 +42,14 @@ public class CidadeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEV')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         cidadeService.softDelete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping({"/{id}"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEV')")
     public ResponseEntity<Void> toggleActive(@PathVariable Long id) {
         cidadeService.toggleActive(id);
         return ResponseEntity.noContent().build();
