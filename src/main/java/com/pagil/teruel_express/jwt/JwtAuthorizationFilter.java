@@ -29,6 +29,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             "/pessoa-fisica",
             "/pessoa-juridica",
             "/h2-console",
+            "/codigo/gerar",
+            "/codigo/atualizar",
+            "/codigo/validar",
+            "/avaliacoes/landing",
             "/favicon.ico"
     );
 
