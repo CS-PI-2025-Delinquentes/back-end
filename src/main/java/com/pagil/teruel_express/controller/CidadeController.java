@@ -23,6 +23,11 @@ public class CidadeController {
         return ResponseEntity.ok(cidadeService.findAllNotExcluded(pageable));
     }
 
+    @GetMapping("/client")
+    public ResponseEntity<Page<Cidade>> findAllClient(Pageable pageable) {
+        return ResponseEntity.ok(cidadeService.findAllNotExcludedInactive(pageable));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Cidade> findById(@PathVariable Long id) {
         return ResponseEntity.ok(cidadeService.findById(id));

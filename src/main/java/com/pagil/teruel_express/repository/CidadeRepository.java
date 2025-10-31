@@ -8,8 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
-
-import static com.pagil.teruel_express.model.entity.StatusRota.EXCLUIDO;
+import java.util.Collection;
 
 public interface CidadeRepository extends JpaRepository<Cidade,Long> {
 
@@ -17,5 +16,6 @@ public interface CidadeRepository extends JpaRepository<Cidade,Long> {
     Optional<Cidade> findByNomeIgnoreCase(String nome);
     Optional<Cidade> findByNomeIgnoreCaseAndEstadoNomeIgnoreCase(String cidade, String estado);
     Page<Cidade> findAllByStatusNot(StatusRota status, Pageable pageable);
+    Page<Cidade> findAllByStatusNotIn(Collection<StatusRota> statuses, Pageable pageable);
 
 }
