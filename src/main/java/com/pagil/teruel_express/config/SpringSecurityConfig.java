@@ -44,6 +44,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/codigo/gerar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/codigo/validar").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/codigo/atualizar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "avaliacoes/landing").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(
