@@ -139,6 +139,10 @@ public class CidadeService {
         return cidadeRepository.findAllByStatusNot(StatusRota.valueOf("EXCLUIDO"), pageable);
     }
 
+    public Page<Cidade> findAllNotExcludedInactive(Pageable pageable) {
+        return cidadeRepository.findAllByStatusNotIn(java.util.List.of(StatusRota.EXCLUIDO, StatusRota.INATIVO), pageable);
+    }
+
     public Page<Cidade> findAll(Pageable pageable) {
         return cidadeRepository.findAll(pageable);
     }
