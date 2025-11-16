@@ -27,6 +27,9 @@ public class Pedido {
     @Column(nullable = false, name = "data_solicitacao")
     private LocalDate dataPedido = LocalDate.now();
 
+    @Column(nullable = true, name = "observacao")
+    private String observacao;
+
     @ManyToOne
     @JoinColumn(name = "endereco_origem_id")
     private Endereco origem;
