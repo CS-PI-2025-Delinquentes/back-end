@@ -48,6 +48,7 @@ public class PedidoService {
         Endereco destino = enderecoService.insert(dto.getDestino());
         Pedido pedido = PedidoMapper.toPedido(dto, origem, destino);
         pedido.setPessoa(userService.getCurrentPessoa());
+        pedido.setObservacao(dto.getObservacao());
         Pedido pedidoBank = repository.save(pedido);
         pacoteRepository.saveAll(PedidoMapper.toListPacote(dto.getPacotes(), pedidoBank));
     }
