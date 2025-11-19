@@ -12,6 +12,7 @@ public class LoginDto {
     @Size(min = 11, max = 14)
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
+
     @NotBlank
     @Size(min = 8)
     @JsonProperty("password")

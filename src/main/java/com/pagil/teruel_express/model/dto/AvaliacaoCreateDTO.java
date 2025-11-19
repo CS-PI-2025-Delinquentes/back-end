@@ -14,7 +14,4 @@ public class AvaliacaoCreateDTO {
     private Integer nota;
 
     private String descricao;
-
-    @NotNull
-    private Long pessoaId;
 }

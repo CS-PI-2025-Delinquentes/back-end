@@ -11,19 +11,19 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false, name = "email")
     private String email;
+
     @Column(nullable = false, name = "telefone")
     private String telefone;
+
     @Column(nullable = false, name = "senha")
     private String senha;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "role")
-    private Role role;
 
-    public enum Role {
-        ROLE_CLIENT, ROLE_ADMIN, ROLE_DEV
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "role")
+    private Role role = Role.ROLE_CLIENT;
 
     public Pessoa() {}
 
@@ -33,5 +33,13 @@ public abstract class Pessoa {
         this.telefone = telefone;
         this.senha = senha;
         this.role = role;
+    }
+
+    public String getSenha(){
+        return senha;
+    }
+
+    public void setSenha(String senha){
+        this.senha = senha;
     }
 }

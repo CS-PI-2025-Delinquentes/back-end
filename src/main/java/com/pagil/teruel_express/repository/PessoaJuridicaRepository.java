@@ -2,6 +2,7 @@ package com.pagil.teruel_express.repository;
 
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
+import com.pagil.teruel_express.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,5 +14,5 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     Optional<PessoaJuridica> findByCnpj(String cpf);
 
     @Query("SELECT p.role FROM PessoaJuridica p WHERE p.cnpj = ?1")
-    Pessoa.Role findRoleByCnpj(String cnpj);
+    Role findRoleByCnpj(String cnpj);
 }
