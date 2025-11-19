@@ -25,7 +25,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private JwtUserDetailsService detailsService;
 
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
-            "/auth/login",
+            "/auth/login/clientes",
+            "/auth/login/admin",
             "/codigo/gerar",
             "/codigo/validar",
             "codigo/atualizar",
