@@ -14,10 +14,16 @@ public class OrcamentoDTO {
     @NotNull
     @JsonProperty("addressOrigin")
     private EnderecoDTO origem;
+
     @Valid
     @NotNull
     @JsonProperty("addressDestiny")
     private EnderecoDTO destino;
+
+    @Valid
+    @JsonProperty("observation")
+    private String observacao;
+
     @Valid
     @NotEmpty
     @JsonProperty("listPackages")
