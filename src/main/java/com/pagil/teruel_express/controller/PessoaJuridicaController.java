@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,17 +28,19 @@ public class PessoaJuridicaController {
     private UserContextService userContextService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<Page<PessoaJuridica>> findAll(Pageable pageable) {
         return ResponseEntity.ok(pessoaJuridicaService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<PessoaJuridica> findById(@PathVariable Long id) {
         return ResponseEntity.ok(pessoaJuridicaService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<PessoaJuridica> save(@RequestBody @Valid   PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
+    public ResponseEntity<PessoaJuridica> save(@RequestBody @Valid PessoaJuridicaCreateDTO pessoaJuridicaCreateDTO) {
         return ResponseEntity.ok(pessoaJuridicaService.insert(pessoaJuridicaCreateDTO));
     }
 
@@ -56,6 +59,7 @@ public class PessoaJuridicaController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pessoaJuridicaService.delete(id);
         return ResponseEntity.noContent().build();
