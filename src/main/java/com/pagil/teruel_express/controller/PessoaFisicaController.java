@@ -1,10 +1,14 @@
 package com.pagil.teruel_express.controller;
 
+import com.pagil.teruel_express.jwt.UserContextService;
 import com.pagil.teruel_express.model.dto.PessoaFisicaCreateDTO;
-import com.pagil.teruel_express.model.dto.PessoaFisicaUpdateDTO;
+import com.pagil.teruel_express.model.dto.PessoaUpdateDTO;
+import com.pagil.teruel_express.model.dto.SenhaUpdateDTO;
+import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.service.PessoaFisicaService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +17,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pessoa-fisica")
+@Slf4j
 public class PessoaFisicaController {
 
     @Autowired
     private PessoaFisicaService pessoaFisicaService;
+
+    @Autowired
+    private UserContextService userContextService;
 
     @GetMapping
     public ResponseEntity<Page<PessoaFisica>> findAll(Pageable pageable) {
@@ -33,9 +41,17 @@ public class PessoaFisicaController {
         return ResponseEntity.ok(pessoaFisicaService.insert(pessoaFisicaCreateDTO));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PessoaFisica> update(@PathVariable Long id, @RequestBody PessoaFisicaUpdateDTO pessoaFisicaUpdateDTO) {
-        return ResponseEntity.ok(pessoaFisicaService.update(id, pessoaFisicaUpdateDTO));
+    @PutMapping
+    public ResponseEntity<PessoaFisica> update(@RequestBody PessoaUpdateDTO pessoaUpdateDTO) {
+        Long personId = userContextService.getCurrentUserId();
+        return ResponseEntity.ok(pessoaFisicaService.update(personId, pessoaUpdateDTO));
+    }
+
+    @PatchMapping
+    public ResponseEntity<?> updateSenha(@RequestBody @Valid SenhaUpdateDTO dto) {
+        Long personId = userContextService.getCurrentUserId();
+        pessoaFisicaService.updateSenha(personId, dto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

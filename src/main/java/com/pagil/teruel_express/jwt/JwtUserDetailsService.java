@@ -1,6 +1,7 @@
 package com.pagil.teruel_express.jwt;
 
 import com.pagil.teruel_express.exception.UsernameTypeException;
+import com.pagil.teruel_express.model.dto.AccountInfoDTO;
 import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
@@ -70,6 +71,26 @@ public class JwtUserDetailsService implements UserDetailsService {
         } else if(pessoa instanceof PessoaJuridica){
             dto.setNome(((PessoaJuridica) pessoa).getNomeFantasia());
             dto.setTipoConta("Pessoa Jurídica");
+            return dto;
+        } else {
+            throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");
+        }
+    }
+
+    public AccountInfoDTO getAccountInfo(String username) {
+        Pessoa pessoa = getPessoaLogada(username);
+        AccountInfoDTO dto = new AccountInfoDTO();
+        dto.setPhone(pessoa.getTelefone());
+        dto.setEmail(pessoa.getEmail());
+        if(pessoa instanceof PessoaFisica){
+            dto.setName(((PessoaFisica) pessoa).getNome());
+            dto.setAccountType("Pessoa Física");
+            dto.setCpfCnpj(((PessoaFisica) pessoa).getCpf());
+            return dto;
+        } else if(pessoa instanceof PessoaJuridica){
+            dto.setName(((PessoaJuridica) pessoa).getNomeFantasia());
+            dto.setAccountType("Pessoa Jurídica");
+            dto.setCpfCnpj(((PessoaJuridica) pessoa).getCnpj());
             return dto;
         } else {
             throw new UsernameTypeException("Username não é nem CPF nem CNPJ!");

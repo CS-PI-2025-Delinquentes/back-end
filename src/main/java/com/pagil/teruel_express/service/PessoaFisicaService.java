@@ -1,13 +1,20 @@
 package com.pagil.teruel_express.service;
 
+import com.pagil.teruel_express.exception.BusinessLogicException;
 import com.pagil.teruel_express.exception.EmailCpfUniqueViolationException;
+import com.pagil.teruel_express.exception.InvalidValuesException;
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.jwt.JwtUserDetailsService;
+import com.pagil.teruel_express.jwt.UserContextService;
+import com.pagil.teruel_express.model.dto.AccountInfoDTO;
 import com.pagil.teruel_express.model.dto.PessoaFisicaCreateDTO;
+import com.pagil.teruel_express.model.dto.PessoaUpdateDTO;
+import com.pagil.teruel_express.model.dto.SenhaUpdateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
-import com.pagil.teruel_express.model.dto.PessoaFisicaUpdateDTO;
 import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.Role;
 import com.pagil.teruel_express.repository.PessoaFisicaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +24,7 @@ import org.thymeleaf.context.Context;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class PessoaFisicaService {
 
     @Autowired
@@ -55,14 +63,14 @@ public class PessoaFisicaService {
         emailService.emailTemplate(pessoaFisica.getEmail(), "Cadastro Teruel Express", context, "cadastroTeruelExpress");
     }
 
-    public PessoaFisica update(Long id, PessoaFisicaUpdateDTO pessoaFisicaUpdateDTO) {
-        PessoaFisica pessoaFisicaBank = findById(id);
+    public PessoaFisica update(Long id, PessoaUpdateDTO pessoaUpdateDTO) {
+        PessoaFisica person = findById(id);
 
-        pessoaFisicaBank.setNome(pessoaFisicaUpdateDTO.getNome());
-        pessoaFisicaBank.setEmail(pessoaFisicaUpdateDTO.getEmail());
-        pessoaFisicaBank.setTelefone(pessoaFisicaUpdateDTO.getTelefone());
+        if(pessoaUpdateDTO.getName() != null) person.setNome(pessoaUpdateDTO.getName());
+        if(pessoaUpdateDTO.getEmail() != null) person.setEmail(pessoaUpdateDTO.getEmail());
+        if(pessoaUpdateDTO.getPhone() != null) person.setTelefone(pessoaUpdateDTO.getPhone());
 
-        return pessoaFisicaRepository.save(pessoaFisicaBank);
+        return pessoaFisicaRepository.save(person);
     }
 
     public void delete(Long id) {
@@ -84,6 +92,19 @@ public class PessoaFisicaService {
         return pessoaFisicaRepository.findByCpf(cpf).orElseThrow(
                 () -> new NotFoundException("CPF não encontrado")
         );
+    }
+
+    public void updateSenha(Long id, SenhaUpdateDTO dto) {
+        if(dto.getCurrentPassword().equals(dto.getPassword()))
+            throw new BusinessLogicException("Senha nova não deve ser igual antiga");
+        PessoaFisica person = findById(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(!encoder.matches(dto.getCurrentPassword(), person.getSenha())) {
+            throw new InvalidValuesException("Senha anterior incorreta");
+        } else {
+            person.setSenha(encoder.encode(dto.getPassword()));
+            pessoaFisicaRepository.save(person);
+        }
     }
 
     public Role buscarRolePorUsername(String cpf) {

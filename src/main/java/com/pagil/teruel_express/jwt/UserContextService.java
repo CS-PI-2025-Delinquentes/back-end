@@ -1,5 +1,6 @@
 package com.pagil.teruel_express.jwt;
 
+import com.pagil.teruel_express.model.dto.AccountInfoDTO;
 import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.entity.Pessoa;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,8 @@ public class UserContextService {
         return userDetailsService.getPessoaLogada(username);
     }
 
-    public HomePageDto getCurrentHomePageInfo() {
-        String username = getCurrentUsername();
-        return userDetailsService.getNomeTipoPessoaLogado(username);
+    public AccountInfoDTO getAccountInfo() {
+        return userDetailsService.getAccountInfo(getCurrentUsername());
     }
 
 }
