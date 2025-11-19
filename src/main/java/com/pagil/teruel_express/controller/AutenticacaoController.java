@@ -4,6 +4,7 @@ import com.pagil.teruel_express.exception.handler.ErrorMessage;
 import com.pagil.teruel_express.jwt.JwtToken;
 import com.pagil.teruel_express.jwt.JwtUserDetailsService;
 import com.pagil.teruel_express.jwt.UserContextService;
+import com.pagil.teruel_express.model.dto.AccountInfoDTO;
 import com.pagil.teruel_express.model.dto.HomePageDto;
 import com.pagil.teruel_express.model.dto.LoginDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class AutenticacaoController {
     }
 
     @GetMapping("/home")
-    public ResponseEntity<HomePageDto> getInfo() {
-        return ResponseEntity.ok(contextService.getCurrentHomePageInfo());
+    public ResponseEntity<AccountInfoDTO> getInfo() {
+        return ResponseEntity.ok(contextService.getAccountInfo());
     }
 }

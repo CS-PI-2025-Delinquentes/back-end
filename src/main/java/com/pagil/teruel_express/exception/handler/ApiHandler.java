@@ -90,6 +90,14 @@ public class ApiHandler {
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
 
+    @ExceptionHandler(InvalidValuesException.class)
+    public ResponseEntity<ErrorMessage> invalidValuesException(InvalidValuesException ex, HttpServletRequest request) {
+        log.error("Logic Error - ", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request) {
         log.error("Api Error - ", ex);

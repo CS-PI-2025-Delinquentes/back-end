@@ -1,10 +1,16 @@
 package com.pagil.teruel_express.service;
 
+import com.pagil.teruel_express.exception.BusinessLogicException;
 import com.pagil.teruel_express.exception.EmailCnpjUniqueViolationException;
+import com.pagil.teruel_express.exception.InvalidValuesException;
 import com.pagil.teruel_express.exception.NotFoundException;
+import com.pagil.teruel_express.jwt.UserContextService;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaCreateDTO;
 import com.pagil.teruel_express.model.dto.PessoaJuridicaUpdateDTO;
+import com.pagil.teruel_express.model.dto.PessoaUpdateDTO;
+import com.pagil.teruel_express.model.dto.SenhaUpdateDTO;
 import com.pagil.teruel_express.model.entity.Pessoa;
+import com.pagil.teruel_express.model.entity.PessoaFisica;
 import com.pagil.teruel_express.model.entity.PessoaJuridica;
 import com.pagil.teruel_express.model.entity.Role;
 import com.pagil.teruel_express.repository.PessoaJuridicaRepository;
@@ -59,14 +65,14 @@ public class PessoaJuridicaService {
         emailService.emailTemplate(pessoaJuridica.getEmail(), "Cadastro Teruel Express", context, "cadastroTeruelExpress");
     }
 
-    public PessoaJuridica update(Long id, PessoaJuridicaUpdateDTO pessoaJuridicaUpdateDTO) {
-        PessoaJuridica pessoaJuridicaBank = findById(id);
+    public PessoaJuridica update(Long id, PessoaUpdateDTO pessoaUpdateDTO) {
+        PessoaJuridica person = findById(id);
 
-        pessoaJuridicaBank.setNomeFantasia(pessoaJuridicaUpdateDTO.getNomeFantasia());
-        pessoaJuridicaBank.setEmail(pessoaJuridicaUpdateDTO.getEmail());
-        pessoaJuridicaBank.setTelefone(pessoaJuridicaUpdateDTO.getTelefone());
+        if(pessoaUpdateDTO.getName() != null) person.setNomeFantasia(pessoaUpdateDTO.getName());
+        if(pessoaUpdateDTO.getEmail() != null) person.setEmail(pessoaUpdateDTO.getEmail());
+        if(pessoaUpdateDTO.getPhone() != null) person.setTelefone(pessoaUpdateDTO.getPhone());
 
-        return pessoaJuridicaRepository.save(pessoaJuridicaBank);
+        return pessoaJuridicaRepository.save(person);
     }
 
     public void delete(Long id) {
@@ -93,5 +99,18 @@ public class PessoaJuridicaService {
 
     public Role buscarRolePorUsername(String cnpj) {
         return pessoaJuridicaRepository.findRoleByCnpj(cnpj);
+    }
+
+    public void updateSenha(Long id, SenhaUpdateDTO dto) {
+        if(dto.getCurrentPassword().equals(dto.getPassword()))
+            throw new BusinessLogicException("Senha nova não deve ser igual antiga");
+        PessoaJuridica person = findById(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(!encoder.matches(dto.getCurrentPassword(), person.getSenha())) {
+            throw new InvalidValuesException("Senha anterior incorreta");
+        } else {
+            person.setSenha(encoder.encode(dto.getPassword()));
+            pessoaJuridicaRepository.save(person);
+        }
     }
 }

@@ -26,8 +26,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
             "/auth/login",
-            "/pessoa-fisica",
-            "/pessoa-juridica",
             "/codigo/gerar",
             "/codigo/validar",
             "codigo/atualizar",
@@ -40,7 +38,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestPath = request.getRequestURI();
-        if (shouldSkip(requestPath)) {
+        boolean personPath = (requestPath.equals("/pessoa-fisica") || requestPath.equals("/pessoa-juridica")) && request.getMethod().equals("POST");
+            if (shouldSkip(requestPath) || personPath) {
             filterChain.doFilter(request, response);
             return;
         }
