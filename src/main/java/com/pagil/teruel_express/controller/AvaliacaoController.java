@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class AvaliacaoController {
     private AvaliacaoService avaliacaoService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DEV')")
     public ResponseEntity<PageableDTO> findAll(Pageable pageable) {
         return ResponseEntity.ok(
                 PageableMapper.toDto(avaliacaoService.findAll(pageable))
@@ -42,6 +44,7 @@ public class AvaliacaoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<AvaliacaoResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(avaliacaoService.findByIdGet(id));
     }
@@ -52,11 +55,13 @@ public class AvaliacaoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<Avaliacao> update(@PathVariable Long id, @RequestBody AvaliacaoUpdateDTO avaliacaoUpdateDTO) {
         return ResponseEntity.ok(avaliacaoService.update(id, avaliacaoUpdateDTO));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DEV')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         avaliacaoService.delete(id);
         return ResponseEntity.noContent().build();

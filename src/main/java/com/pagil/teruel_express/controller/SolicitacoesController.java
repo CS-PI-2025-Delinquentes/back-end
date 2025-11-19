@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,7 @@ public class SolicitacoesController {
     }
 
     @GetMapping("/clientes/{id}")
+    @PreAuthorize("hasRole('ROLE_DEV')")
     public ResponseEntity<?> findAllByClient(@PathVariable Long id, Pageable pageable) {
         return ResponseEntity.ok(
                 PageableMapper.toDto(
@@ -34,6 +36,7 @@ public class SolicitacoesController {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DEV')")
     public ResponseEntity<?> findAllAdmin(Pageable pageable) {
         return ResponseEntity.ok(
                 PageableMapper.toDto(
@@ -42,8 +45,10 @@ public class SolicitacoesController {
     }
 
     @PatchMapping("/admin/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DEV')")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestParam boolean aceito) {
-        return ResponseEntity.ok(pedidoService.avaliarPedido(id, aceito));
+        pedidoService.avaliarPedido(id, aceito);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/clientes/{id}")
@@ -53,6 +58,7 @@ public class SolicitacoesController {
     }
 
     @GetMapping("/admin/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DEV')")
     public ResponseEntity<?> getDetalhes(@PathVariable Long id) {
         return ResponseEntity.ok(
                 PedidoMapper.toDetalhes(
