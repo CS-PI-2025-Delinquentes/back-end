@@ -38,7 +38,8 @@ public class SpringSecurityConfig {
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login/clientes").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login/admin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa-fisica").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pessoa-juridica").permitAll()
                         .requestMatchers(HttpMethod.POST, "/codigo/gerar").permitAll()
